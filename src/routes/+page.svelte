@@ -1,9 +1,11 @@
 <script lang="ts">
   import LeftItemList from "./LeftItemList.svelte";
+    import ListView from "./ListView.svelte";
   import TitleBar from "./TitleBar.svelte";
   import TopMenu from "./TopMenu.svelte";
 
-  export let searchbarMode : "filter"|"search"|"path" = "path";
+  let searchbarMode : "filter"|"search"|"path" = "path";
+  let directory = "c:/";
 </script>
 
 <div class="container">
@@ -13,15 +15,7 @@
   <div class="inner-container">
     <LeftItemList />
     <div class="file-list">
-      <div>나는 페이지!2</div>
-      <div>나는 페이지!3</div>
-      <div>나는 페이지!4</div>
-      <div>나는 페이지!5</div>
-      <div>나는 페이지!</div>
-      <div>나는 페이지!</div>
-      <div>나는 페이지!</div>
-      <div>나는 페이지!</div>
-      <div>나는 페이지!</div>
+      <ListView/>
     </div>
   </div>
 </div>
