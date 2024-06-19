@@ -6,6 +6,7 @@ specifiers:
   '@sveltejs/vite-plugin-svelte': ^3.0.0
   '@tauri-apps/api': ^1
   '@tauri-apps/cli': ^1
+  sass: ^1.77.6
   svelte: ^4.2.7
   svelte-check: ^3.6.0
   tslib: ^2.4.1
@@ -20,11 +21,12 @@ devDependencies:
   '@sveltejs/kit': 2.5.16_e4dodyljmuslx5ra37aamga4ci
   '@sveltejs/vite-plugin-svelte': 3.1.1_svelte@4.2.18+vite@5.3.1
   '@tauri-apps/cli': 1.5.14
+  sass: 1.77.6
   svelte: 4.2.18
-  svelte-check: 3.8.1_svelte@4.2.18
+  svelte-check: 3.8.1_sass@1.77.6+svelte@4.2.18
   tslib: 2.6.3
   typescript: 5.4.5
-  vite: 5.3.1
+  vite: 5.3.1_sass@1.77.6
 
 packages:
 
@@ -458,7 +460,7 @@ packages:
       sirv: 2.0.4
       svelte: 4.2.18
       tiny-glob: 0.2.9
-      vite: 5.3.1
+      vite: 5.3.1_sass@1.77.6
     dev: true
 
   /@sveltejs/vite-plugin-svelte-inspector/2.1.0_e4dodyljmuslx5ra37aamga4ci:
@@ -472,7 +474,7 @@ packages:
       '@sveltejs/vite-plugin-svelte': 3.1.1_svelte@4.2.18+vite@5.3.1
       debug: 4.3.5
       svelte: 4.2.18
-      vite: 5.3.1
+      vite: 5.3.1_sass@1.77.6
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -491,7 +493,7 @@ packages:
       magic-string: 0.30.10
       svelte: 4.2.18
       svelte-hmr: 0.16.0_svelte@4.2.18
-      vite: 5.3.1
+      vite: 5.3.1_sass@1.77.6
       vitefu: 0.2.5_vite@5.3.1
     transitivePeerDependencies:
       - supports-color
@@ -865,6 +867,10 @@ packages:
     resolution: {integrity: sha512-RbJ5/jmFcNNCcDV5o9eTnBLJ/HszWV0P73bc+Ff4nS/rJj+YaS6IGyiOL0VoBYX+l1Wrl3k63h/KrH+nhJ0XvQ==}
     dev: true
 
+  /immutable/4.3.6:
+    resolution: {integrity: sha512-Ju0+lEMyzMVZarkTn/gqRpdqd5dOPaz1mCZ0SH3JV6iFw81PldE/PEB1hWVEA288HPt4WXW8O7AWxB10M+03QQ==}
+    dev: true
+
   /import-fresh/3.3.0:
     resolution: {integrity: sha512-veYYhQa+D1QBKznvhUHxb8faxlrwUnxseDAbAp457E0wLNio2bOSKnjYDhMj+YiAq61xrMGhQk9iXVk5FzgQMw==}
     engines: {node: '>=6'}
@@ -1119,6 +1125,16 @@ packages:
       rimraf: 2.7.1
     dev: true
 
+  /sass/1.77.6:
+    resolution: {integrity: sha512-ByXE1oLD79GVq9Ht1PeHWCPMPB8XHpBuz1r85oByKHjZY6qV6rWnQovQzXJXuQ/XyE1Oj3iPk3lo28uzaRA2/Q==}
+    engines: {node: '>=14.0.0'}
+    hasBin: true
+    dependencies:
+      chokidar: 3.6.0
+      immutable: 4.3.6
+      source-map-js: 1.2.0
+    dev: true
+
   /set-cookie-parser/2.6.0:
     resolution: {integrity: sha512-RVnVQxTXuerk653XfuliOxBP81Sf0+qfQE73LIYKcyMYHG94AuH0kgrQpRDuTZnSmjpysHmzxJXKNfa6PjFhyQ==}
     dev: true
@@ -1154,7 +1170,7 @@ packages:
       min-indent: 1.0.1
     dev: true
 
-  /svelte-check/3.8.1_svelte@4.2.18:
+  /svelte-check/3.8.1_sass@1.77.6+svelte@4.2.18:
     resolution: {integrity: sha512-KlQ0TRVe01mdvh49Ylkr9FQxO/UWbQOtaIrccl3gjgkvby1TxY41VkT7ijCl6i29FjaJPE4m6YGmhdqov0MfkA==}
     hasBin: true
     peerDependencies:
@@ -1167,7 +1183,7 @@ packages:
       picocolors: 1.0.1
       sade: 1.8.1
       svelte: 4.2.18
-      svelte-preprocess: 5.1.4_ja42uprdpvxoe42vhneuflytbu
+      svelte-preprocess: 5.1.4_du6icfh3wqecyq6ygewci4h54a
       typescript: 5.4.5
     transitivePeerDependencies:
       - '@babel/core'
@@ -1190,7 +1206,7 @@ packages:
       svelte: 4.2.18
     dev: true
 
-  /svelte-preprocess/5.1.4_ja42uprdpvxoe42vhneuflytbu:
+  /svelte-preprocess/5.1.4_du6icfh3wqecyq6ygewci4h54a:
     resolution: {integrity: sha512-IvnbQ6D6Ao3Gg6ftiM5tdbR6aAETwjhHV+UKGf5bHGYR69RQvF1ho0JKPcbUON4vy4R7zom13jPjgdOWCQ5hDA==}
     engines: {node: '>= 16.0.0'}
     requiresBuild: true
@@ -1231,6 +1247,7 @@ packages:
       '@types/pug': 2.0.10
       detect-indent: 6.1.0
       magic-string: 0.30.10
+      sass: 1.77.6
       sorcery: 0.11.1
       strip-indent: 3.0.0
       svelte: 4.2.18
@@ -1286,7 +1303,7 @@ packages:
     hasBin: true
     dev: true
 
-  /vite/5.3.1:
+  /vite/5.3.1_sass@1.77.6:
     resolution: {integrity: sha512-XBmSKRLXLxiaPYamLv3/hnP/KXDai1NDexN0FpkTaZXTfycHvkRHoenpgl/fvuK/kPbB6xAgoyiryAhQNxYmAQ==}
     engines: {node: ^18.0.0 || >=20.0.0}
     hasBin: true
@@ -1317,6 +1334,7 @@ packages:
       esbuild: 0.21.5
       postcss: 8.4.38
       rollup: 4.18.0
+      sass: 1.77.6
     optionalDependencies:
       fsevents: 2.3.3
     dev: true
@@ -1329,7 +1347,7 @@ packages:
       vite:
         optional: true
     dependencies:
-      vite: 5.3.1
+      vite: 5.3.1_sass@1.77.6
     dev: true
 
   /wrappy/1.0.2:
