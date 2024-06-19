@@ -1,6 +1,6 @@
 <script lang="ts">
   import { appWindow } from "@tauri-apps/api/window";
-  import Space from "./Space.svelte";
+  import Space from "./common/Space.svelte";
   import logo from "../libs/icon.png";
   const onClickMinimize = () => appWindow.minimize();
   const onClickMaximize = () => appWindow.toggleMaximize();
@@ -60,6 +60,7 @@
     align-items: center;
     padding-left: 10px;
     box-shadow: #c2c2c2 0px 0px 10px;
+    z-index: 2;
   }
   .titlebar-button {
     display: inline-flex;
