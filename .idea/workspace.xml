@@ -7,33 +7,134 @@
     <cargoProject FILE="$PROJECT_DIR$/src-tauri/Cargo.toml" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c03bbd8a-a218-4a46-b169-e64f61fc3a49" name="변경" comment="" />
+    <list default="true" id="c03bbd8a-a218-4a46-b169-e64f61fc3a49" name="변경" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/luna.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/luna.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src-tauri/icons/128x128.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src-tauri/icons/128x128@2x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src-tauri/icons/32x32.png" beforeDir="false" afterPath="$PROJECT_DIR$/src-tauri/icons/32x32.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src-tauri/icons/Square107x107Logo.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src-tauri/icons/Square142x142Logo.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src-tauri/icons/Square150x150Logo.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src-tauri/icons/Square284x284Logo.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src-tauri/icons/Square30x30Logo.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src-tauri/icons/Square310x310Logo.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src-tauri/icons/Square44x44Logo.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src-tauri/icons/Square71x71Logo.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src-tauri/icons/Square89x89Logo.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src-tauri/icons/StoreLogo.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src-tauri/icons/icon.icns" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src-tauri/icons/icon.ico" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src-tauri/icons/icon.png" beforeDir="false" afterPath="$PROJECT_DIR$/src-tauri/icons/icon.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src-tauri/tauri.conf.json" beforeDir="false" afterPath="$PROJECT_DIR$/src-tauri/tauri.conf.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vite.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/vite.config.js" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;relay955&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/relay955/luna.git&quot;,
+    &quot;accountId&quot;: &quot;5aa27d33-0172-42dc-9668-11122778a688&quot;
+  }
+}</component>
   <component name="MacroExpansionManager">
     <option name="directoryName" value="27h9j1s3" />
+  </component>
+  <component name="PackageJsonUpdateNotifier">
+    <dismissed value="$PROJECT_DIR$/package.json" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 2
 }</component>
   <component name="ProjectId" id="2i4gUMlNGw3ijAmWTf7I8agbikn" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.rust.reset.selective.auto.import&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/project/luna&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;org.rust.cargo.project.model.PROJECT_DISCOVERY&quot;: &quot;true&quot;,
-    &quot;org.rust.first.attach.projects&quot;: &quot;true&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.rust.reset.selective.auto.import": "true",
+    "git-widget-placeholder": "master",
+    "last_opened_file_path": "C:/project/luna/src-tauri/icons",
+    "node.js.detected.package.eslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "nodejs_interpreter_path": "node",
+    "nodejs_package_manager_path": "pnpm",
+    "npm.build.executor": "Run",
+    "npm.dev.executor": "Run",
+    "npm.preview.executor": "Run",
+    "npm.tauri.executor": "Run",
+    "org.rust.cargo.project.model.PROJECT_DISCOVERY": "true",
+    "org.rust.first.attach.projects": "true",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "ts.external.directory.path": "C:\\project\\luna\\node_modules\\typescript\\lib"
   }
-}</component>
+}]]></component>
+  <component name="RunManager" selected="npm.tauri">
+    <configuration name="build" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="build" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <configuration name="dev" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="dev" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <configuration name="preview" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="preview" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <configuration name="tauri" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="tauri" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="npm.tauri" />
+        <item itemvalue="npm.dev" />
+        <item itemvalue="npm.preview" />
+        <item itemvalue="npm.build" />
+      </list>
+    </recent_temporary>
+  </component>
   <component name="RustProjectSettings">
     <option name="toolchainHomeDirectory" value="$USER_HOME$/.cargo/bin" />
   </component>
@@ -47,6 +148,8 @@
       <updated>1718755278324</updated>
       <workItem from="1718755279539" duration="25000" />
       <workItem from="1718755313151" duration="27000" />
+      <workItem from="1718755364331" duration="1387000" />
+      <workItem from="1718757055753" duration="969000" />
     </task>
     <servers />
   </component>
