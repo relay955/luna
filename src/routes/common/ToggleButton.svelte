@@ -1,8 +1,10 @@
 <script>
     export let selected = false;
+    export let large = false;
     export let style = "";
+    export let onClick = () => {};
 </script>
-<button class={selected ? "selected":""} style={style}>
+<button class={selected ? "selected":""} style={`${style} ${large ? "width:28px; height:28px;":""}`} on:click={onClick}>
     <slot></slot>
 </button>
 
@@ -10,7 +12,7 @@
     button{
         width: 20px;
         height: 20px;
-        background: #f7f7f7;
+        background: white;
         border: none;
         border-radius: 3px;
         padding: 4px;

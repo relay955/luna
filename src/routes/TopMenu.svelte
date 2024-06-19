@@ -4,6 +4,10 @@
     import ToggleButton from "./common/ToggleButton.svelte";
     import FaFilter from 'svelte-icons/fa/FaFilter.svelte'
     import FaFolderOpen from 'svelte-icons/fa/FaFolderOpen.svelte'
+    import ButtonGroup from "./common/ButtonGroup.svelte";
+    import FaListUl from 'svelte-icons/fa/FaListUl.svelte'
+    import FaThLarge from 'svelte-icons/fa/FaThLarge.svelte'
+    import FaTicketAlt from 'svelte-icons/fa/FaTicketAlt.svelte'
 
     export let searchbarMode : "filter"|"search"|"path" = "filter";
 </script>
@@ -19,6 +23,19 @@
              <FaFolderOpen/> 
         </ToggleButton>
         <Input style="flex:1"/>
+    </div>
+    <div class="container" style="margin-top:5px">
+        <ButtonGroup name="view mode">
+        <ToggleButton large style="margin-right:5px;">
+            <FaListUl/>
+        </ToggleButton>
+        <ToggleButton large style="margin-right:5px;">
+            <FaThLarge/>
+        </ToggleButton>
+        <ToggleButton large style="margin-right:5px;">
+            <FaTicketAlt/>
+        </ToggleButton>
+        </ButtonGroup>
     </div>
 </div>
 
