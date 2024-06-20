@@ -1,4 +1,5 @@
 export const beutifyFileSize = (size: number): string => {
+    if(size == 0) return "";
     if (size < 1024) {
         return `${size} B`;
     }
