@@ -14,7 +14,8 @@ use dto::FileItem;
 mod dto;
 
 #[tauri::command]
-fn get_file_list(dir: &str) -> Vec<FileItem> {
+fn get_file_list(dir: &str, sort_by:&str, sort_direction:&str, 
+                 grouping_mode:&str, search:&str, filter:&str) -> Vec<FileItem> {
     let paths = std::fs::read_dir(dir).unwrap();
     let mut list: Vec<FileItem>  = Vec::new();
     for item in paths {
@@ -31,7 +32,28 @@ fn get_file_list(dir: &str) -> Vec<FileItem> {
         println!("{:?} {:?} {:?}",file_info.name, file_info.size, file_info.file_type);
         list.insert(0,file_info);
     }
+    if sort_by == "name" {
+        list.sort_by(|a, b| a.name.cmp(&b.name));
+    } else if sort_by == "size" {
+        list.sort_by(|a, b| a.size.cmp(&b.size));
+    } else if sort_by == "edit_date" {
+        list.sort_by(|a, b| a.edit_date.cmp(&b.edit_date));
+    }
+    
+    if sort_direction == "desc" { list.reverse(); }
+    
+    if grouping_mode == "folder"{
+        let mut dirs:Vec<FileItem> = list.clone().into_iter().filter(|x| x.file_type == "dir").collect();
+        let mut files = list.into_iter().filter(|x| x.file_type == "file").collect();
+        dirs.append(&mut files);
+        list = dirs;
+    }
+    
+    if !filter.is_empty() {
+        list.retain(|x| x.name.contains(filter));
+    }
     return list;
+    
 }
 
 fn main() { 

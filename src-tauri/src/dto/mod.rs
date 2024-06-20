@@ -1,6 +1,7 @@
 use serde::{Serialize, Serializer};
 use serde::ser::SerializeStruct;
 
+#[derive(Clone)]
 pub struct FileItem {
    pub name: String,
    pub size: u64,
