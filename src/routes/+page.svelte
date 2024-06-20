@@ -25,16 +25,20 @@
     });
   }
 
+  const onChangeDirectory = (fileItem:FileItem) => {
+    directory = fileItem.full_path;
+  }
+
 </script>
 
 <div class="container">
   <TitleBar />
   <div style="margin-top: 30px;"></div>
-  <TopMenu searchbarMode={searchbarMode} />
+  <TopMenu bind:searchbarMode={searchbarMode} bind:directory={directory} />
   <div class="inner-container">
     <LeftItemList />
     <div class="file-list">
-      <ListView fileItems={fileItems}/>
+      <ListView fileItems={fileItems} onChangeDirectory={onChangeDirectory}/>
     </div>
   </div>
 </div>

@@ -10,6 +10,15 @@
     import FaTicketAlt from "svelte-icons/fa/FaTicketAlt.svelte";
     import FaFile from 'svelte-icons/fa/FaFile.svelte'
     export let searchbarMode: "filter" | "search" | "path" = "filter";
+    export let directory:string;
+
+    let temporaryDirectory:string;
+    $:temporaryDirectory = directory;
+
+    const onEnterSearchInput = (e:KeyboardEvent)=>{
+        if(e.key != "Enter") return;
+        directory = temporaryDirectory;
+    }
 </script>
 
 <div class="topmenu">
@@ -32,7 +41,7 @@
         >
             <FaFolderOpen />
         </ToggleButton>
-        <Input style="flex:1" />
+        <Input style="flex:1" bind:value={temporaryDirectory} keydown={onEnterSearchInput} />
     </div>
     <div class="container" style="margin-top:5px">
         <ButtonGroup name="view mode">

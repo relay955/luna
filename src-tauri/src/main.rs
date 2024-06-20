@@ -7,6 +7,7 @@ use std::os::windows::fs::MetadataExt;
 use chrono::{DateTime, Utc};
 use serde::Serialize;
 use tauri::Manager;
+use tauri::regex::Match;
 use window_shadows::set_shadow;
 
 use dto::FileItem;
@@ -15,23 +16,31 @@ mod dto;
 
 #[tauri::command]
 fn get_file_list(dir: &str, sort_by:&str, sort_direction:&str, 
-                 grouping_mode:&str, search:&str, filter:&str) -> Vec<FileItem> {
-    let paths = std::fs::read_dir(dir).unwrap();
+                 grouping_mode:&str, search:&str, filter:&str) -> Result<Vec<FileItem>,String> {
+    let paths = match std::fs::read_dir(dir) {
+        Ok(p) => p,
+        Err(e) => return Err(e.to_string())
+    };
     let mut list: Vec<FileItem>  = Vec::new();
     for item in paths {
-        let item = item.unwrap();
-        let metadata = item.metadata().unwrap();
-        let dt: DateTime<Utc> = metadata.created().unwrap().into();
-        let mut file_info:FileItem = FileItem{
-            name: item.file_name().into_string().unwrap(),
+        let item = match item {Ok(i) => i, Err(_) => continue};
+        let metadata = match item.metadata() { Ok(m) => m, Err(_) => continue };
+        let dt: DateTime<Utc> = match metadata.created() {
+            Ok(t) => t.into(),
+            Err(_) => continue
+        };
+        let file_info:FileItem = FileItem{
+            name: match item.file_name().into_string() {Ok(s) => s, Err(_) => continue},
             size: metadata.len(),
             file_type: if metadata.is_dir() {String::from("dir")} else {String::from("file")},
             edit_date: dt.format("%Y-%m-%d %H:%M:%S").to_string(),
-            hidden: metadata.file_attributes() & 0x00000002 != 0
+            hidden: metadata.file_attributes() & 0x00000002 != 0,
+            full_path: item.path().to_string_lossy().to_string()
         };
         println!("{:?} {:?} {:?}",file_info.name, file_info.size, file_info.file_type);
         list.insert(0,file_info);
     }
+    
     if sort_by == "name" {
         list.sort_by(|a, b| a.name.cmp(&b.name));
     } else if sort_by == "size" {
@@ -52,8 +61,8 @@ fn get_file_list(dir: &str, sort_by:&str, sort_direction:&str,
     if !filter.is_empty() {
         list.retain(|x| x.name.contains(filter));
     }
-    return list;
     
+    Ok(list)
 }
 
 fn main() { 
