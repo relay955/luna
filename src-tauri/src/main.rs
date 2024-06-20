@@ -15,6 +15,12 @@ use dto::FileItem;
 mod dto;
 
 #[tauri::command]
+fn open_file(file_path: &str) {
+    let _ = std::process::Command::new("cmd")
+        .arg(file_path)
+        .output();
+}
+#[tauri::command]
 fn get_file_list(dir: &str, sort_by:&str, sort_direction:&str, 
                  grouping_mode:&str, search:&str, filter:&str) -> Result<Vec<FileItem>,String> {
     let paths = match std::fs::read_dir(dir) {
@@ -74,7 +80,8 @@ fn main() {
             Ok(())
         })
         .invoke_handler(tauri::generate_handler![
-            get_file_list
+            get_file_list,
+            open_file
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
