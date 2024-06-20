@@ -8,13 +8,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c03bbd8a-a218-4a46-b169-e64f61fc3a49" name="변경" comment="타이틀바 추가">
+      <change afterPath="$PROJECT_DIR$/src-tauri/src/dto/mod.rs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pnpm-lock.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pnpm-lock.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.vscode/settings.json" beforeDir="false" afterPath="$PROJECT_DIR$/.vscode/settings.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src-tauri/Cargo.lock" beforeDir="false" afterPath="$PROJECT_DIR$/src-tauri/Cargo.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src-tauri/Cargo.toml" beforeDir="false" afterPath="$PROJECT_DIR$/src-tauri/Cargo.toml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src-tauri/src/main.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src-tauri/src/main.rs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/logics/fileitem.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/logics/fileitem.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/routes/+page.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/routes/+page.svelte" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/routes/Space.svelte" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/routes/TitleBar.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/routes/TitleBar.svelte" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tsconfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/tsconfig.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/routes/ListView.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/routes/ListView.svelte" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/routes/ListViewItem.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/routes/ListViewItem.svelte" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -24,6 +27,13 @@
   <component name="ChangesViewManager">
     <option name="groupingKeys">
       <option value="directory" />
+    </option>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Rust File" />
+      </list>
     </option>
   </component>
   <component name="Git.Settings">
@@ -57,10 +67,15 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Cargo.Run luna.executor": "Run",
+    "Cargo.Run.executor": "Debug",
+    "Cargo.Rust - Run.executor": "Debug",
+    "Cargo.clean.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.rust.reset.selective.auto.import": "true",
     "git-widget-placeholder": "master",
-    "last_opened_file_path": "C:/project/luna/src-tauri/icons",
+    "ignore.virus.scanning.warn.message": "true",
+    "last_opened_file_path": "C:/project/luna/src-tauri",
     "node.js.detected.package.eslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "nodejs_interpreter_path": "node",
@@ -68,11 +83,12 @@
     "npm.build.executor": "Run",
     "npm.dev.executor": "Run",
     "npm.preview.executor": "Run",
-    "npm.tauri.executor": "Run",
+    "npm.tauri.executor": "Debug",
     "org.rust.cargo.project.model.PROJECT_DISCOVERY": "true",
     "org.rust.cargo.project.model.impl.CargoExternalSystemProjectAware.subscribe.first.balloon": "",
+    "org.rust.disableDetachedFileInspectionC:/project/luna/src-tauri/src/dto/fileitem.rs": "true",
     "org.rust.first.attach.projects": "true",
-    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "settings.editor.selected.configurable": "language.rust.cargo.check",
     "ts.external.directory.path": "C:\\project\\luna\\node_modules\\typescript\\lib"
   }
 }]]></component>
@@ -81,19 +97,78 @@
       <recent name="C:\project\luna\src-tauri\icons" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\project\luna\src-tauri\src\dto" />
+      <recent name="C:\project\luna\src-tauri\src" />
       <recent name="C:\project\luna\src-tauri\icons" />
     </key>
   </component>
+  <component name="RsExternalLinterProjectSettings">
+    <option name="channel" value="stable" />
+    <option name="runOnTheFly" value="true" />
+    <option name="tool" value="Clippy" />
+  </component>
+  <component name="RunAnythingCache">
+    <option name="myCommands">
+      <command value="cargo clean" />
+    </option>
+  </component>
+  <component name="RunAnythingContextRecentDirectoryCache">
+    <option name="paths">
+      <recentPaths value="$PROJECT_DIR$/src" />
+      <recentPaths value="$PROJECT_DIR$/src-tauri" />
+    </option>
+  </component>
   <component name="RunManager" selected="npm.tauri">
-    <configuration name="build" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
-      <package-json value="$PROJECT_DIR$/package.json" />
-      <command value="run" />
-      <scripts>
-        <script value="build" />
-      </scripts>
-      <node-interpreter value="project" />
+    <configuration name="Run luna" type="CargoCommandRunConfiguration" factoryName="Cargo Command" temporary="true">
+      <option name="command" value="run --package luna --bin luna" />
+      <option name="workingDirectory" value="file://$PROJECT_DIR$/src-tauri" />
       <envs />
-      <method v="2" />
+      <option name="emulateTerminal" value="true" />
+      <option name="channel" value="DEFAULT" />
+      <option name="requiredFeatures" value="true" />
+      <option name="allFeatures" value="false" />
+      <option name="withSudo" value="false" />
+      <option name="buildTarget" value="REMOTE" />
+      <option name="backtrace" value="SHORT" />
+      <option name="isRedirectInput" value="false" />
+      <option name="redirectInputPath" value="" />
+      <method v="2">
+        <option name="CARGO.BUILD_TASK_PROVIDER" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Rust - Run" type="CargoCommandRunConfiguration" factoryName="Cargo Command">
+      <option name="command" value="run --no-default-features" />
+      <option name="workingDirectory" value="file://$PROJECT_DIR$/src-tauri" />
+      <envs />
+      <option name="emulateTerminal" value="true" />
+      <option name="channel" value="DEFAULT" />
+      <option name="requiredFeatures" value="true" />
+      <option name="allFeatures" value="false" />
+      <option name="withSudo" value="false" />
+      <option name="buildTarget" value="REMOTE" />
+      <option name="backtrace" value="SHORT" />
+      <option name="isRedirectInput" value="false" />
+      <option name="redirectInputPath" value="" />
+      <method v="2">
+        <option name="CARGO.BUILD_TASK_PROVIDER" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="clean" type="CargoCommandRunConfiguration" factoryName="Cargo Command" temporary="true">
+      <option name="command" value="clean" />
+      <option name="workingDirectory" value="file://$PROJECT_DIR$/src-tauri" />
+      <envs />
+      <option name="emulateTerminal" value="true" />
+      <option name="channel" value="DEFAULT" />
+      <option name="requiredFeatures" value="true" />
+      <option name="allFeatures" value="false" />
+      <option name="withSudo" value="false" />
+      <option name="buildTarget" value="REMOTE" />
+      <option name="backtrace" value="SHORT" />
+      <option name="isRedirectInput" value="false" />
+      <option name="redirectInputPath" value="" />
+      <method v="2">
+        <option name="CARGO.BUILD_TASK_PROVIDER" enabled="true" />
+      </method>
     </configuration>
     <configuration name="dev" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
       <package-json value="$PROJECT_DIR$/package.json" />
@@ -125,12 +200,21 @@
       <envs />
       <method v="2" />
     </configuration>
+    <list>
+      <item itemvalue="Cargo.Rust - Run" />
+      <item itemvalue="Cargo.Run luna" />
+      <item itemvalue="Cargo.clean" />
+      <item itemvalue="npm.dev" />
+      <item itemvalue="npm.preview" />
+      <item itemvalue="npm.tauri" />
+    </list>
     <recent_temporary>
       <list>
         <item itemvalue="npm.tauri" />
         <item itemvalue="npm.dev" />
         <item itemvalue="npm.preview" />
-        <item itemvalue="npm.build" />
+        <item itemvalue="Cargo.Run luna" />
+        <item itemvalue="Cargo.clean" />
       </list>
     </recent_temporary>
   </component>
@@ -148,7 +232,11 @@
       <workItem from="1718755279539" duration="25000" />
       <workItem from="1718755313151" duration="27000" />
       <workItem from="1718755364331" duration="1387000" />
-      <workItem from="1718757055753" duration="6957000" />
+      <workItem from="1718757055753" duration="9434000" />
+      <workItem from="1718772824393" duration="105000" />
+      <workItem from="1718773023809" duration="423000" />
+      <workItem from="1718773473123" duration="9645000" />
+      <workItem from="1718784304643" duration="7476000" />
     </task>
     <task id="LOCAL-00001" summary="아이콘 추가">
       <option name="closed" value="true" />
@@ -178,6 +266,17 @@
     <MESSAGE value="아이콘 추가" />
     <MESSAGE value="타이틀바 추가" />
     <option name="LAST_COMMIT_MESSAGE" value="타이틀바 추가" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/src-tauri/src/main.rs</url>
+          <line>31</line>
+          <option name="timeStamp" value="5" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
