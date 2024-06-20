@@ -11,7 +11,15 @@
   let fileItems:FileItem[] = [];
 
   $:{
-    invoke("get_file_list",{dir:directory}).then((res)=>{
+    let options = {
+      dir:directory,
+      sortBy:"name",
+      sortDirection:"asc",
+      groupingMode:"folder",
+      search:"",
+      filter:""
+    }
+    invoke("get_file_list",options).then((res)=>{
       console.log(res)
       fileItems = res as FileItem[];
     });

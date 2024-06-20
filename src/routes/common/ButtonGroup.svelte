@@ -2,11 +2,11 @@
     export let style="";
     export let name:string|undefined= undefined;
 </script>
-<div class="button-group">
+<div class="button-group" style={style} >
     {#if name}
         <div class="name">{name}</div>
     {/if}
-    <div style={style} class="inner-container">
+    <div class="inner-container">
         <slot></slot>
     </div>
 </div>
