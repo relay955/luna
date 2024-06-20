@@ -4,7 +4,8 @@
 
     export let fileItems = [] as FileItem[];
 
-    export let onChangeDirectory: (fileItem:FileItem)=>void;
+    export let onDoubleClickFileItem: (fileItem:FileItem)=>void;
+
 
 </script>
 
@@ -20,7 +21,7 @@
         </thead>
         <tbody>
             {#each fileItems as fileItem}
-            <tr on:dblclick={()=>onChangeDirectory(fileItem)}>
+            <tr on:dblclick={()=>onDoubleClickFileItem(fileItem)}>
             <td class="td-name">{fileItem.name}</td>
             <td class="td-date">{fileItem.edit_date}</td>
             <td class="td-size">{beutifyFileSize(fileItem.size)}</td>

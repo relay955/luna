@@ -1,7 +1,7 @@
 <script lang="ts">
     import Input from "./common/Input.svelte";
     import FaSearch from "svelte-icons/fa/FaSearch.svelte";
-    import ToggleButton from "./common/ToggleButton.svelte";
+    import IconButton from "./common/IconButton.svelte";
     import FaFilter from "svelte-icons/fa/FaFilter.svelte";
     import FaFolderOpen from "svelte-icons/fa/FaFolderOpen.svelte";
     import ButtonGroup from "./common/ButtonGroup.svelte";
@@ -9,8 +9,10 @@
     import FaThLarge from "svelte-icons/fa/FaThLarge.svelte";
     import FaTicketAlt from "svelte-icons/fa/FaTicketAlt.svelte";
     import FaFile from 'svelte-icons/fa/FaFile.svelte'
+    import FaArrowLeft from 'svelte-icons/fa/FaArrowLeft.svelte'
     export let searchbarMode: "filter" | "search" | "path" = "filter";
     export let directory:string;
+    export let onClickHistoryBack:()=>void;
 
     let temporaryDirectory:string;
     $:temporaryDirectory = directory;
@@ -23,48 +25,51 @@
 
 <div class="topmenu">
     <div class="container">
-        <ToggleButton
+        <IconButton style="margin-right:10px;" onClick={onClickHistoryBack}>
+            <FaArrowLeft />
+        </IconButton>
+        <IconButton
             selected={searchbarMode == "filter"}
             style="margin-right:5px"
         >
             <FaFilter />
-        </ToggleButton>
-        <ToggleButton
+        </IconButton>
+        <IconButton
             selected={searchbarMode == "search"}
             style="margin-right:5px"
         >
             <FaSearch />
-        </ToggleButton>
-        <ToggleButton
+        </IconButton>
+        <IconButton
             selected={searchbarMode == "path"}
             style="margin-right:5px"
         >
             <FaFolderOpen />
-        </ToggleButton>
+        </IconButton>
         <Input style="flex:1" bind:value={temporaryDirectory} keydown={onEnterSearchInput} />
     </div>
     <div class="container" style="margin-top:5px">
         <ButtonGroup name="view mode">
-            <ToggleButton large style="margin-right:5px;">
+            <IconButton large style="margin-right:5px;">
                 <FaListUl />
-            </ToggleButton>
-            <ToggleButton large style="margin-right:5px;">
+            </IconButton>
+            <IconButton large style="margin-right:5px;">
                 <FaThLarge />
-            </ToggleButton>
-            <ToggleButton large style="margin-right:5px;">
+            </IconButton>
+            <IconButton large style="margin-right:5px;">
                 <FaTicketAlt />
-            </ToggleButton>
+            </IconButton>
         </ButtonGroup>
         <ButtonGroup name="grouping" style="margin-left:5px">
-            <ToggleButton large style="margin-right:5px;">
+            <IconButton large style="margin-right:5px;">
                 ALL
-            </ToggleButton>
-            <ToggleButton large style="margin-right:5px;">
+            </IconButton>
+            <IconButton large style="margin-right:5px;">
                 <FaFolderOpen/>
-            </ToggleButton>
-            <ToggleButton large style="margin-right:5px;">
+            </IconButton>
+            <IconButton large style="margin-right:5px;">
                 <FaFile/>
-            </ToggleButton>
+            </IconButton>
         </ButtonGroup>
     </div>
 </div>

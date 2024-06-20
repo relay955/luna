@@ -9,6 +9,7 @@
   let searchbarMode : "filter"|"search"|"path" = "path";
   let directory = "c:/";
   let fileItems:FileItem[] = [];
+  let directoryHistory:string[] = [];
 
   $:{
     let options = {
@@ -25,8 +26,18 @@
     });
   }
 
-  const onChangeDirectory = (fileItem:FileItem) => {
-    directory = fileItem.full_path;
+  const onDoubleClickFileItem = (fileItem:FileItem) => {
+    if(fileItem.file_type == "dir"){
+      directoryHistory.push(directory);
+      directory = fileItem.full_path;
+    }else{
+      invoke("open_file",{filePath:fileItem.full_path});
+    }
+  }
+
+  const onClickHistoryBack = ()=>{
+    if(directoryHistory.length == 0) return;
+    directory = directoryHistory.pop()!;
   }
 
 </script>
@@ -34,11 +45,13 @@
 <div class="container">
   <TitleBar />
   <div style="margin-top: 30px;"></div>
-  <TopMenu bind:searchbarMode={searchbarMode} bind:directory={directory} />
+  <TopMenu bind:searchbarMode={searchbarMode} bind:directory={directory}
+           onClickHistoryBack={onClickHistoryBack}
+   />
   <div class="inner-container">
     <LeftItemList />
     <div class="file-list">
-      <ListView fileItems={fileItems} onChangeDirectory={onChangeDirectory}/>
+      <ListView fileItems={fileItems} onDoubleClickFileItem={onDoubleClickFileItem}/>
     </div>
   </div>
 </div>
