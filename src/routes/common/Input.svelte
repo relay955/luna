@@ -1,7 +1,9 @@
 <script lang=ts>
 export let style="";
+export let value:string;
+export let keydown:(e:KeyboardEvent)=>void;
 </script>
-<input style={style}/>
+<input style={style} bind:value={value} on:keydown={keydown}/>
 <style lang="scss">
     input{
         background: #ffffff;

@@ -4,6 +4,8 @@
 
     export let fileItems = [] as FileItem[];
 
+    export let onChangeDirectory: (fileItem:FileItem)=>void;
+
 </script>
 
 <div class="root">
@@ -18,7 +20,7 @@
         </thead>
         <tbody>
             {#each fileItems as fileItem}
-            <tr>
+            <tr on:dblclick={()=>onChangeDirectory(fileItem)}>
             <td class="td-name">{fileItem.name}</td>
             <td class="td-date">{fileItem.edit_date}</td>
             <td class="td-size">{beutifyFileSize(fileItem.size)}</td>
@@ -55,8 +57,14 @@
         font-size: 14px;
     }
 
-    tr:nth-child(even) {
-        background-color: #f5f5f5;
+    tr{
+        transition: 300ms all;
+        &:nth-child(even){
+            background-color: #f5f5f5;
+        }
+        &:hover{
+            background-color: #e5e5e5;
+        }   
     }
 
 

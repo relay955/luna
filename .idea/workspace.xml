@@ -7,13 +7,15 @@
     <cargoProject FILE="$PROJECT_DIR$/src-tauri/Cargo.toml" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c03bbd8a-a218-4a46-b169-e64f61fc3a49" name="변경" comment="파일목록 화면에 표시">
+    <list default="true" id="c03bbd8a-a218-4a46-b169-e64f61fc3a49" name="변경" comment="api 업데이트">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src-tauri/src/dto/mod.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src-tauri/src/dto/mod.rs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src-tauri/src/main.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src-tauri/src/main.rs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/logics/fileitem.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/logics/fileitem.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/routes/+page.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/routes/+page.svelte" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/routes/ListView.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/routes/ListView.svelte" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/routes/TopMenu.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/routes/TopMenu.svelte" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/routes/common/ButtonGroup.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/routes/common/ButtonGroup.svelte" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/routes/common/Input.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/routes/common/Input.svelte" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -71,7 +73,7 @@
     "RunOnceActivity.rust.reset.selective.auto.import": "true",
     "git-widget-placeholder": "master",
     "ignore.virus.scanning.warn.message": "true",
-    "last_opened_file_path": "C:/project/luna/src-tauri",
+    "last_opened_file_path": "C:/project/luna/src-tauri/icons",
     "node.js.detected.package.eslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "nodejs_interpreter_path": "node",
@@ -232,7 +234,7 @@
       <workItem from="1718772824393" duration="105000" />
       <workItem from="1718773023809" duration="423000" />
       <workItem from="1718773473123" duration="9645000" />
-      <workItem from="1718784304643" duration="14015000" />
+      <workItem from="1718784304643" duration="16215000" />
     </task>
     <task id="LOCAL-00001" summary="아이콘 추가">
       <option name="closed" value="true" />
@@ -258,7 +260,15 @@
       <option name="project" value="LOCAL" />
       <updated>1718849803013</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="api 업데이트">
+      <option name="closed" value="true" />
+      <created>1718860718169</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1718860718169</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -270,7 +280,8 @@
     <MESSAGE value="아이콘 추가" />
     <MESSAGE value="타이틀바 추가" />
     <MESSAGE value="파일목록 화면에 표시" />
-    <option name="LAST_COMMIT_MESSAGE" value="파일목록 화면에 표시" />
+    <MESSAGE value="api 업데이트" />
+    <option name="LAST_COMMIT_MESSAGE" value="api 업데이트" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
