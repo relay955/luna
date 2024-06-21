@@ -22,7 +22,12 @@
         <tbody>
             {#each fileItems as fileItem}
             <tr on:dblclick={()=>onDoubleClickFileItem(fileItem)}>
-            <td class="td-name">{fileItem.name}</td>
+            <td class="td-name">
+                <div style="display: flex; align-items: center;">
+                <img src={`data:image/png;base64,${fileItem.icon}`} alt="file_icon" width="20px" height="20px" style="margin-right:5px;"/>
+                {fileItem.name}
+                </div>
+            </td>
             <td class="td-date">{fileItem.edit_date}</td>
             <td class="td-size">{beutifyFileSize(fileItem.size)}</td>
             <td class="td-type">{fileItem.file_type}</td>
