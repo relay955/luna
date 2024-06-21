@@ -3,20 +3,24 @@
 
 use std::any::Any;
 use std::os::windows::fs::MetadataExt;
+use base64::Engine;
+use base64::engine::general_purpose;
 
 use chrono::{DateTime, Utc};
 use serde::Serialize;
-use tauri::Manager;
+use tauri::{Icon, Manager};
 use tauri::regex::Match;
 use window_shadows::set_shadow;
 
 use dto::FileItem;
+use fileaccess::icon::get_icon;
 
 mod dto;
+mod fileaccess;
 
 #[tauri::command]
 fn open_file(file_path: &str) {
-    let _ = std::process::Command::new("cmd")
+    let _ = std::process::Command::new("notepad")
         .arg(file_path)
         .output();
 }
@@ -35,15 +39,23 @@ fn get_file_list(dir: &str, sort_by:&str, sort_direction:&str,
             Ok(t) => t.into(),
             Err(_) => continue
         };
-        let file_info:FileItem = FileItem{
+        
+        let mut file_info:FileItem = FileItem{
             name: match item.file_name().into_string() {Ok(s) => s, Err(_) => continue},
             size: metadata.len(),
             file_type: if metadata.is_dir() {String::from("dir")} else {String::from("file")},
             edit_date: dt.format("%Y-%m-%d %H:%M:%S").to_string(),
             hidden: metadata.file_attributes() & 0x00000002 != 0,
-            full_path: item.path().to_string_lossy().to_string()
+            full_path: item.path().to_string_lossy().to_string(),
+            icon : String::new()
         };
-        println!("{:?} {:?} {:?}",file_info.name, file_info.size, file_info.file_type);
+        let icon = match get_icon(&file_info.full_path) {
+            Ok(icon) => icon,
+            Err(_) => continue
+        };
+        //icon vectors to base64
+        file_info.icon = general_purpose::STANDARD.encode(&icon);
+        
         list.insert(0,file_info);
     }
     

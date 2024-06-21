@@ -8,7 +8,8 @@ pub struct FileItem {
    pub file_type: String,
    pub edit_date: String,
    pub hidden: bool,
-   pub full_path: String
+   pub full_path: String,
+   pub icon:String
 }
 
 impl Serialize for FileItem{
@@ -23,6 +24,7 @@ impl Serialize for FileItem{
         state.serialize_field("edit_date", &self.edit_date)?;
         state.serialize_field("hidden", &self.hidden)?;
         state.serialize_field("full_path", &self.full_path)?;
+        state.serialize_field("icon", &self.icon)?;
         state.end()
     }
 }
