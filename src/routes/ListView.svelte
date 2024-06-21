@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { slide } from "svelte/transition";
     import type { FileItem } from "../logics/fileitem";
     import { beutifyFileSize } from "../utils/filesizeBeutifier";
 
