@@ -53,7 +53,7 @@ fn get_file_list(dir: &str, sort_by:&str, sort_direction:&str,
             Ok(icon) => icon,
             Err(_) => continue
         };
-        //icon vectors to base64
+        // icon vectors to base64
         file_info.icon = general_purpose::STANDARD.encode(&icon);
         
         list.insert(0,file_info);
@@ -80,7 +80,10 @@ fn get_file_list(dir: &str, sort_by:&str, sort_direction:&str,
         list.retain(|x| x.name.contains(filter));
     }
     
-    Ok(list)
+    if list.len() < 500 { Ok(list) }
+    else {
+        Ok(list.splice(0..500, Vec::new()).collect())
+    }
 }
 
 fn main() { 

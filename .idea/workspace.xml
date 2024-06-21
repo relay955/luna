@@ -7,15 +7,12 @@
     <cargoProject FILE="$PROJECT_DIR$/src-tauri/Cargo.toml" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c03bbd8a-a218-4a46-b169-e64f61fc3a49" name="변경" comment="히스토리 뒤로가기 버튼 추가">
-      <change afterPath="$PROJECT_DIR$/src-tauri/src/fileaccess/icon/mod.rs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src-tauri/src/fileaccess/mod.rs" afterDir="false" />
+    <list default="true" id="c03bbd8a-a218-4a46-b169-e64f61fc3a49" name="변경" comment="아이콘 불러오기 추가">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src-tauri/Cargo.lock" beforeDir="false" afterPath="$PROJECT_DIR$/src-tauri/Cargo.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src-tauri/Cargo.toml" beforeDir="false" afterPath="$PROJECT_DIR$/src-tauri/Cargo.toml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src-tauri/src/dto/mod.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src-tauri/src/dto/mod.rs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src-tauri/src/fileaccess/icon/mod.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src-tauri/src/fileaccess/icon/mod.rs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src-tauri/src/main.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src-tauri/src/main.rs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/logics/fileitem.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/logics/fileitem.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/routes/ListView.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/routes/ListView.svelte" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -87,7 +84,7 @@
     "org.rust.cargo.project.model.impl.CargoExternalSystemProjectAware.subscribe.first.balloon": "",
     "org.rust.disableDetachedFileInspectionC:/project/luna/src-tauri/src/dto/fileitem.rs": "true",
     "org.rust.first.attach.projects": "true",
-    "settings.editor.selected.configurable": "language.rust.cargo.check",
+    "settings.editor.selected.configurable": "database.data.csv.formats",
     "ts.external.directory.path": "C:\\project\\luna\\node_modules\\typescript\\lib"
   }
 }]]></component>
@@ -236,7 +233,7 @@
       <workItem from="1718773023809" duration="423000" />
       <workItem from="1718773473123" duration="9645000" />
       <workItem from="1718784304643" duration="21471000" />
-      <workItem from="1718937652848" duration="10538000" />
+      <workItem from="1718937652848" duration="16742000" />
     </task>
     <task id="LOCAL-00001" summary="아이콘 추가">
       <option name="closed" value="true" />
@@ -278,7 +275,15 @@
       <option name="project" value="LOCAL" />
       <updated>1718864031406</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="아이콘 불러오기 추가">
+      <option name="closed" value="true" />
+      <created>1718952205062</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1718952205062</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -292,7 +297,8 @@
     <MESSAGE value="파일목록 화면에 표시" />
     <MESSAGE value="api 업데이트" />
     <MESSAGE value="히스토리 뒤로가기 버튼 추가" />
-    <option name="LAST_COMMIT_MESSAGE" value="히스토리 뒤로가기 버튼 추가" />
+    <MESSAGE value="아이콘 불러오기 추가" />
+    <option name="LAST_COMMIT_MESSAGE" value="아이콘 불러오기 추가" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>
