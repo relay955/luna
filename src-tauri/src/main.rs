@@ -13,7 +13,6 @@ use crate::api::geticons::get_icons;
 use crate::api::openfile::open_file;
 
 
-mod dto;
 mod fileaccess;
 mod api;
 
