@@ -15,34 +15,10 @@ use image::codecs::png::PngEncoder;
 use lazy_static::lazy_static;
 use once_cell::unsync::Lazy;
 
-lazy_static! {
-    static ref CACHE: Mutex<HashMap<String, Vec<u8>>> = Mutex::new(HashMap::new());
-}
-
-pub fn get_from_cache(file_ext: &str) -> Option<Vec<u8>> {
-    let cache = CACHE.lock().unwrap();
-    cache.get(file_ext).cloned()
-}
-
-pub fn set_to_cache(file_ext: &str, icon: &Vec<u8>) {
-    let mut cache = CACHE.lock().unwrap();
-    if cache.contains_key(file_ext) { return; }
-    cache.insert(file_ext.to_string(), icon.clone());
-}
-
 pub fn get_icon(file_path: &str) -> Result<Vec<u8>,i32> {
     let file_path = file_path.replace("/", "\\");
     let file_path_u16 = U16CString::from_str(file_path.clone()).unwrap();
     
-    let ext = Path::new(&file_path).extension().and_then(|s| s.to_str());
-    if ext.is_some() { 
-        let ext = ext.unwrap();
-        if let Some(icon) = get_from_cache(ext) {
-            return Ok(icon);
-        }
-    }
-    
-
     let mut shfileinfo = SHFILEINFOW {
         hIcon: ptr::null_mut(),
         iIcon: 0,
@@ -150,9 +126,6 @@ pub fn get_icon(file_path: &str) -> Result<Vec<u8>,i32> {
             .write_image(&image_buffer, bitmap.bmWidth as u32, bitmap.bmHeight as u32, image::ExtendedColorType::Rgba8)
             .unwrap();
         
-        if ext.is_some() {
-            set_to_cache(ext.unwrap(), &png_data);
-        }
         Ok(png_data)
     }
 }
