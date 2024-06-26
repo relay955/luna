@@ -29,19 +29,19 @@
             <FaArrowLeft />
         </IconButton>
         <IconButton
-            selected={searchbarMode == "filter"}
+            selected={searchbarMode === "filter"}
             style="margin-right:5px"
         >
             <FaFilter />
         </IconButton>
         <IconButton
-            selected={searchbarMode == "search"}
+            selected={searchbarMode === "search"}
             style="margin-right:5px"
         >
             <FaSearch />
         </IconButton>
         <IconButton
-            selected={searchbarMode == "path"}
+            selected={searchbarMode === "path"}
             style="margin-right:5px"
         >
             <FaFolderOpen />
