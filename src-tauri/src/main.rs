@@ -8,26 +8,14 @@ use base64::Engine;
 use serde::{Deserialize, Serialize};
 use tauri::{Icon, Manager};
 use window_shadows::set_shadow;
-
-use api::getfilelist;
-use fileaccess::icon::get_icon;
 use crate::api::getfilelist::get_file_list;
+use crate::api::geticons::get_icons;
 use crate::api::openfile::open_file;
+
 
 mod dto;
 mod fileaccess;
 mod api;
-
-// #[derive(Deserialize)]
-// struct IconReq {
-//     name: String,
-//     request_type: String,
-// }
-
-// #[tauri::command]
-// fn get_icons(iconReqList:Vec<IconReq>) -> Result<Vec<FileItem>,String>{
-//     
-// }
 
 fn main() { 
     tauri::Builder::default()
@@ -39,6 +27,7 @@ fn main() {
         })
         .invoke_handler(tauri::generate_handler![
             get_file_list,
+            get_icons,
             open_file
         ])
         .run(tauri::generate_context!())

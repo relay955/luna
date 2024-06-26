@@ -2,8 +2,11 @@
     import { slide } from "svelte/transition";
     import type { FileItem } from "../logics/fileitem";
     import { beutifyFileSize } from "../utils/filesizeBeutifier";
+    import {getIconBinary, type IconCache} from "../logics/iconcache";
 
     export let fileItems = [] as FileItem[];
+
+    export let iconCache:IconCache;
 
     export let onDoubleClickFileItem: (fileItem:FileItem)=>void;
 
@@ -25,7 +28,7 @@
             <tr on:dblclick={()=>onDoubleClickFileItem(fileItem)}>
             <td class="td-name">
                 <div style="display: flex; align-items: center;">
-                <img src={`data:image/png;base64,${fileItem.icon}`} alt="file_icon" width="20px" height="20px" style="margin-right:5px;"/>
+                <img src={`data:image/png;base64,${getIconBinary(iconCache,fileItem)}`} alt="file_icon" width="20px" height="20px" style="margin-right:5px;"/>
                 {fileItem.name}
                 </div>
             </td>
@@ -71,7 +74,7 @@
         }
         &:hover{
             background-color: #e5e5e5;
-        }   
+        }
     }
 
 

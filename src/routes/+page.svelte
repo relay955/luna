@@ -1,5 +1,10 @@
 <script lang="ts">
     import type { FileItem } from "../logics/fileitem";
+    import {
+      generateIconCacheUpdateReq,
+      type IconCache,
+      mergeIconCacheFromUpdateRes
+    } from "../logics/iconcache";
   import LeftItemList from "./LeftItemList.svelte";
     import ListView from "./ListView.svelte";
   import TitleBar from "./TitleBar.svelte";
@@ -11,7 +16,14 @@
   let fileItems:FileItem[] = [];
   let directoryHistory:string[] = [];
 
-  $:{
+  let iconCache:IconCache = {
+    ext: {},
+    file: {},
+    folderIcon: null
+  };
+
+  $:directory, onChangeDirectory()
+  const onChangeDirectory = () =>{
     let options = {
       dir:directory,
       sortBy:"name",
@@ -20,9 +32,13 @@
       search:"",
       filter:""
     }
-    invoke("get_file_list",options).then((res)=>{
-      console.log(res)
+    invoke("get_file_list", options).then(async (res) => {
       fileItems = res as FileItem[];
+      let {req, reqTypeByFile} = generateIconCacheUpdateReq(iconCache, res as FileItem[]);
+      console.log(req, reqTypeByFile)
+      let updateIconCacheRes = await invoke("get_icons", {req: req});
+      iconCache = mergeIconCacheFromUpdateRes(iconCache, reqTypeByFile,updateIconCacheRes as {[index:string]:string});
+      console.log(iconCache)
     });
   }
 
@@ -51,7 +67,7 @@
   <div class="inner-container">
     <LeftItemList />
     <div class="file-list">
-      <ListView fileItems={fileItems} onDoubleClickFileItem={onDoubleClickFileItem}/>
+      <ListView fileItems={fileItems} iconCache={iconCache} onDoubleClickFileItem={onDoubleClickFileItem}/>
     </div>
   </div>
 </div>
