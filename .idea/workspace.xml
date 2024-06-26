@@ -8,11 +8,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c03bbd8a-a218-4a46-b169-e64f61fc3a49" name="변경" comment="아이콘 캐시시스템 추가">
+      <change afterPath="$PROJECT_DIR$/src-tauri/src/fileaccess/associatedprogram.rs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src-tauri/src/dto.rs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src-tauri/src/fileaccess/icon.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src-tauri/src/fileaccess/icon.rs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/logics/iconcache.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/logics/iconcache.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/routes/+page.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/routes/+page.svelte" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src-tauri/Cargo.lock" beforeDir="false" afterPath="$PROJECT_DIR$/src-tauri/Cargo.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src-tauri/Cargo.toml" beforeDir="false" afterPath="$PROJECT_DIR$/src-tauri/Cargo.toml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src-tauri/src/api/openfile.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src-tauri/src/api/openfile.rs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src-tauri/src/fileaccess.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src-tauri/src/fileaccess.rs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src-tauri/src/main.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src-tauri/src/main.rs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
