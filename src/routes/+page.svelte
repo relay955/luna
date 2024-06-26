@@ -35,10 +35,8 @@
     invoke("get_file_list", options).then(async (res) => {
       fileItems = res as FileItem[];
       let {req, reqTypeByFile} = generateIconCacheUpdateReq(iconCache, res as FileItem[]);
-      console.log(req, reqTypeByFile)
       let updateIconCacheRes = await invoke("get_icons", {req: req});
       iconCache = mergeIconCacheFromUpdateRes(iconCache, reqTypeByFile,updateIconCacheRes as {[index:string]:string});
-      console.log(iconCache)
     });
   }
 
