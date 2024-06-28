@@ -6,7 +6,7 @@
     :global(body,html){
         height:100%
     }
-    :global(body,html){
+    :global(body,html,button){
         font-family: 'Noto Sans CJK KR', sans-serif;
     }
 </style>
