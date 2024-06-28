@@ -10,17 +10,26 @@
   import TitleBar from "./TitleBar.svelte";
   import TopMenu from "./TopMenu.svelte";
   import { invoke } from "@tauri-apps/api/tauri"
+    import {onMount} from "svelte";
+    import type {DriveInfo} from "../logics/driveinfo";
 
   let searchbarMode : "filter"|"search"|"path" = "path";
   let directory = "c:/";
   let fileItems:FileItem[] = [];
   let directoryHistory:string[] = [];
+  let driveList:DriveInfo[] = [];
 
   let iconCache:IconCache = {
     ext: {},
     file: {},
     folderIcon: null
   };
+
+  onMount(()=>{
+    invoke("get_drive_list").then((res) => {
+      driveList = res as DriveInfo[];
+    });
+  });
 
   $:directory, onChangeDirectory()
   const onChangeDirectory = () =>{
@@ -54,6 +63,10 @@
     directory = directoryHistory.pop()!;
   }
 
+  const onClickChangeDir = (path:string) => {
+    directory = path;
+  }
+
 </script>
 
 <div class="container">
@@ -63,7 +76,7 @@
            onClickHistoryBack={onClickHistoryBack}
    />
   <div class="inner-container">
-    <LeftItemList />
+    <LeftItemList driveList={driveList} onClickChangeDir={onClickChangeDir} />
     <div class="file-list">
       <ListView fileItems={fileItems} iconCache={iconCache} onDoubleClickFileItem={onDoubleClickFileItem}/>
     </div>

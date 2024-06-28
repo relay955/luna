@@ -33,7 +33,4 @@ pub fn get_file_list(dir: &str, sort_by:&str, sort_direction:&str,
     }
     
     Ok(list)
-
-    // if list.len() < 500 { Ok(list) }
-    // else { Ok(list.splice(0..500, Vec::new()).collect()) }
 }

@@ -11,6 +11,7 @@ use window_shadows::set_shadow;
 use crate::api::getfilelist::get_file_list;
 use crate::api::geticons::get_icons;
 use crate::api::openfile::open_file;
+use crate::api::getdrivelist::get_drive_list;
 
 
 mod fileaccess;
@@ -25,6 +26,7 @@ fn main() {
             Ok(())
         })
         .invoke_handler(tauri::generate_handler![
+            get_drive_list,
             get_file_list,
             get_icons,
             open_file
