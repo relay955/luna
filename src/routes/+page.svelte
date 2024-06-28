@@ -12,12 +12,22 @@
   import { invoke } from "@tauri-apps/api/tauri"
     import {onMount} from "svelte";
     import type {DriveInfo} from "../logics/driveinfo";
+    import FileRightClickMenu from "./FileRightClickMenu.svelte";
+    import {containsNode} from "../utils/htmlnode";
+
+  let fileRightClickMenu:HTMLDivElement;
 
   let searchbarMode : "filter"|"search"|"path" = "path";
   let directory = "c:/";
   let fileItems:FileItem[] = [];
   let directoryHistory:string[] = [];
   let driveList:DriveInfo[] = [];
+  let selectedFileItems:FileItem[] = [];
+  let favoriteFolders:FileItem[] = [];
+
+  let rightClickFileItems:FileItem[] = [];
+  let rightClickPosX = 0;
+  let rightClickPosY = 0;
 
   let iconCache:IconCache = {
     ext: {},
@@ -26,9 +36,9 @@
   };
 
   onMount(()=>{
+    window.oncontextmenu = (e) => e.preventDefault();
     invoke("get_favorite_folders").then((res) => {
-      let favoriteFolders = res as FileItem[];
-      console.log(favoriteFolders);
+      favoriteFolders = res as FileItem[];
     });
     invoke("get_drive_list").then((res) => {
       driveList = res as DriveInfo[];
@@ -53,6 +63,12 @@
     });
   }
 
+  const onClickAllScreen = (e:MouseEvent) => {
+    if (e.button === 0 && !containsNode(fileRightClickMenu, e.target as HTMLElement)) {
+      rightClickFileItems = [];
+    }
+  }
+
   const onDoubleClickFileItem = (fileItem:FileItem) => {
     if(fileItem.file_type == "dir"){
       directoryHistory.push(directory);
@@ -60,6 +76,12 @@
     }else{
       invoke("open_file",{filePath:fileItem.full_path});
     }
+  }
+
+  const onRightClickFileItem = (fileItem:FileItem,mouseX:number, mouseY:number) => {
+    rightClickFileItems = [fileItem];
+    rightClickPosX = mouseX;
+    rightClickPosY = mouseY;
   }
 
   const onClickHistoryBack = ()=>{
@@ -71,20 +93,38 @@
     directory = path;
   }
 
+  const onClickFavorite = () => {
+    invoke("add_favorite_folder", {fullPath: rightClickFileItems[0].full_path});
+    invoke("get_favorite_folders").then((res) => {
+      favoriteFolders = res as FileItem[];
+    });
+  }
+
 </script>
 
-<div class="container">
+<!-- svelte-ignore a11y-no-static-element-interactions -->
+<div class="container" on:mousedown={onClickAllScreen}>
   <TitleBar />
   <div style="margin-top: 30px;"></div>
   <TopMenu bind:searchbarMode={searchbarMode} bind:directory={directory}
            onClickHistoryBack={onClickHistoryBack}
    />
   <div class="inner-container">
-    <LeftItemList driveList={driveList} onClickChangeDir={onClickChangeDir} />
+    <LeftItemList driveList={driveList}
+                  onClickChangeDir={onClickChangeDir}
+                  favoriteFolders={favoriteFolders}
+    />
     <div class="file-list">
-      <ListView fileItems={fileItems} iconCache={iconCache} onDoubleClickFileItem={onDoubleClickFileItem}/>
+      <ListView fileItems={fileItems} iconCache={iconCache} onDoubleClickFileItem={onDoubleClickFileItem}
+                onRightClickFileItem={onRightClickFileItem}/>
     </div>
   </div>
+    <FileRightClickMenu fileItems={rightClickFileItems}
+                        x={rightClickPosX}
+                        y={rightClickPosY}
+                        bind:container={fileRightClickMenu}
+                        onClickFavorite={onClickFavorite}
+    />
 </div>
 
 <style>

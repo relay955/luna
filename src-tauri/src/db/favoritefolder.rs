@@ -27,7 +27,10 @@ pub fn add_favorite_folder(folder_full_path:&str) -> bool {
     };
     let favorite_folders = match db.get_mut("favorite_folders"){
         Some(f) => f,
-        None => return false
+        None => {
+            db.insert("favorite_folders".to_string(), Value::Array(Vec::new()));
+            db.get_mut("favorite_folders").unwrap()
+        }
     };
     let favorite_folders = match favorite_folders.as_array_mut(){
         Some(f) => f,
