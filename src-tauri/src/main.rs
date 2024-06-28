@@ -8,14 +8,17 @@ use base64::Engine;
 use serde::{Deserialize, Serialize};
 use tauri::{Icon, Manager};
 use window_shadows::set_shadow;
+use crate::api::addfavoritefolder::add_favorite_folder;
 use crate::api::getfilelist::get_file_list;
 use crate::api::geticons::get_icons;
 use crate::api::openfile::open_file;
 use crate::api::getdrivelist::get_drive_list;
+use crate::api::getfavoritefolder::get_favorite_folders;
 
 
 mod fileaccess;
 mod api;
+mod db;
 
 fn main() { 
     tauri::Builder::default()
@@ -27,6 +30,8 @@ fn main() {
         })
         .invoke_handler(tauri::generate_handler![
             get_drive_list,
+            get_favorite_folders,
+            add_favorite_folder,
             get_file_list,
             get_icons,
             open_file

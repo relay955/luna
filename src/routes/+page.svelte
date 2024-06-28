@@ -26,6 +26,10 @@
   };
 
   onMount(()=>{
+    invoke("get_favorite_folders").then((res) => {
+      let favoriteFolders = res as FileItem[];
+      console.log(favoriteFolders);
+    });
     invoke("get_drive_list").then((res) => {
       driveList = res as DriveInfo[];
     });
