@@ -8,15 +8,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c03bbd8a-a218-4a46-b169-e64f61fc3a49" name="변경" comment="드라이브 정보 불러오기 추가">
-      <change afterPath="$PROJECT_DIR$/src-tauri/src/api/addfavoritefolder.rs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src-tauri/src/api/getfavoritefolder.rs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src-tauri/src/db.rs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src-tauri/src/db/favoritefolder.rs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src-tauri/luna.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/routes/FileRightClickMenu.svelte" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/utils/htmlnode.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src-tauri/src/api.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src-tauri/src/api.rs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src-tauri/src/fileaccess/file.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src-tauri/src/fileaccess/file.rs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src-tauri/src/main.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src-tauri/src/main.rs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/routes/+page.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/routes/+page.svelte" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/routes/LeftItemList.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/routes/LeftItemList.svelte" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/routes/ListView.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/routes/ListView.svelte" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -34,6 +32,8 @@
         <option value="VerticalLine" />
         <option value="ProgressBar" />
         <option value="Rust File" />
+        <option value="FileRightClickMenu" />
+        <option value="TypeScript File" />
       </list>
     </option>
   </component>
@@ -74,7 +74,7 @@
     "ASKED_ADD_EXTERNAL_FILES": "true",
     "Cargo.Run luna.executor": "Run",
     "Cargo.Run.executor": "Debug",
-    "Cargo.Rust - Run.executor": "Run",
+    "Cargo.Rust - Run.executor": "Debug",
     "Cargo.clean.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.rust.reset.selective.auto.import": "true",
@@ -109,6 +109,7 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\project\luna\src-tauri\src\api" />
       <recent name="C:\project\luna\src\logics" />
       <recent name="C:\project\luna\src-tauri\src" />
       <recent name="C:\project\luna\src-tauri\icons" />
@@ -347,7 +348,15 @@
       <option name="project" value="LOCAL" />
       <updated>1719541861477</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="즐겨찾기 기능 추가">
+      <option name="closed" value="true" />
+      <created>1719558841779</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1719558841779</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -378,9 +387,19 @@
     <MESSAGE value="프론트엔드 이미지캐시 추가" />
     <MESSAGE value="프론트엔드 이미지캐시 오류 수정" />
     <MESSAGE value="드라이브 정보 불러오기 추가" />
-    <option name="LAST_COMMIT_MESSAGE" value="드라이브 정보 불러오기 추가" />
+    <MESSAGE value="즐겨찾기 기능 추가" />
+    <option name="LAST_COMMIT_MESSAGE" value="즐겨찾기 기능 추가" />
   </component>
   <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/src-tauri/src/db/favoritefolder.rs</url>
+          <line>19</line>
+          <option name="timeStamp" value="19" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
     <watches-manager>
       <configuration name="CargoCommandRunConfiguration">
         <watch expression="shfileinfo.hIcon" />

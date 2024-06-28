@@ -9,7 +9,13 @@
     export let iconCache:IconCache;
 
     export let onDoubleClickFileItem: (fileItem:FileItem)=>void;
+    export let onRightClickFileItem: (fileItem:FileItem,mouseX:number, mouseY:number)=>void;
 
+    const onMouseDownFileItem = (e:MouseEvent, fileItem:FileItem)=>{
+        if(e.button === 2){
+            onRightClickFileItem(fileItem,e.clientX,e.clientY);
+        }
+    }
 
 </script>
 
@@ -25,7 +31,7 @@
         </thead>
         <tbody>
             {#each fileItems as fileItem}
-            <tr on:dblclick={()=>onDoubleClickFileItem(fileItem)}>
+            <tr on:dblclick={()=>onDoubleClickFileItem(fileItem)} on:mousedown={(e)=>onMouseDownFileItem(e,fileItem)}>
             <td class="td-name">
                 <div style="display: flex; align-items: center;">
                 <img src={`data:image/png;base64,${getIconBinary(iconCache,fileItem)}`} alt="file_icon" width="20px" height="20px" style="margin-right:5px;"/>
