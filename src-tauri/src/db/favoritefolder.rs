@@ -1,41 +1,32 @@
-use serde_json::Value;
-use crate::db::DB;
+use std::path::Path;
+use std::sync::Mutex;
+use heed::{Database, RwTxn};
+use heed::types::Str;
+use serde::de::Error;
+use crate::db::ENV;
 
-pub fn get_favorite_folders() -> Value{
-    let db = match DB.lock() {
-        Ok(d) => d,
-        Err(_) => return Value::Object(serde_json::Map::new())
-    };
-    let db = match db.as_object(){
+pub fn get_favorite_folders() -> Result<Vec<String>,Box<dyn std::error::Error>>{
+    let mut rtxn = ENV.read_txn()?;
+    let db:Option<Database<Str,Str>> = ENV.open_database(&mut rtxn, Option::from("favorite_folder"))?;
+    let db = match db{
         Some(d) => d,
-        None => return Value::Object(serde_json::Map::new())
+        None => return Ok(Vec::new())
     };
-    match db.get("favorite_folders"){
-        Some(f) => f.clone(),
-        None => Value::Object(serde_json::Map::new())
+    
+    let mut favorite_folders = Vec::new();
+    let iter = db.iter(&rtxn)?;
+    
+    for result in iter{
+        let (key, value) = result.unwrap();
+        favorite_folders.push(key.to_string())
     }
+    Ok(favorite_folders)
 }
 
-pub fn add_favorite_folder(folder_full_path:&str) -> bool {
-    let mut db = match DB.lock() {
-        Ok(d) => d,
-        Err(_) => return false
-    };
-    let mut db = match db.as_object_mut(){
-        Some(d) => d,
-        None => return false
-    };
-    let favorite_folders = match db.get_mut("favorite_folders"){
-        Some(f) => f,
-        None => {
-            db.insert("favorite_folders".to_string(), Value::Array(Vec::new()));
-            db.get_mut("favorite_folders").unwrap()
-        }
-    };
-    let favorite_folders = match favorite_folders.as_array_mut(){
-        Some(f) => f,
-        None => return false
-    };
-    favorite_folders.push(Value::String(folder_full_path.to_string()));
-    true
+pub fn add_favorite_folder(folder_full_path:&str) -> Result<(),Box<dyn std::error::Error>> {
+    let mut wtxn = ENV.write_txn()?;
+    let db:Database<Str,Str> = ENV.create_database(&mut wtxn,Some("favorite_folder"))?;
+    db.put(&mut wtxn, folder_full_path, "")?;
+    wtxn.commit()?;
+    Ok(())
 }
