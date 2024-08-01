@@ -14,18 +14,20 @@ use crate::api::geticons::get_icons;
 use crate::api::openfile::open_file;
 use crate::api::getdrivelist::get_drive_list;
 use crate::api::getfavoritefolder::get_favorite_folders;
+use crate::api::searchfiles::search_files;
+use crate::indexer::index_all_files;
 
 
 mod fileaccess;
 mod api;
 mod db;
+mod indexer;
 
 fn main() { 
     tauri::Builder::default()
         .setup(|app| {
             #[cfg(any(windows, target_os = "macos"))]
             set_shadow(&app.get_window("main").unwrap(),true).unwrap();
-            
             Ok(())
         })
         .invoke_handler(tauri::generate_handler![
@@ -34,7 +36,8 @@ fn main() {
             add_favorite_folder,
             get_file_list,
             get_icons,
-            open_file
+            open_file,
+            search_files
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

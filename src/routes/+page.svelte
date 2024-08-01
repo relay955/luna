@@ -43,6 +43,10 @@
     invoke("get_drive_list").then((res) => {
       driveList = res as DriveInfo[];
     });
+    invoke("search_files", {command: ".ini"}).then((res) => {
+      fileItems = res as FileItem[];
+      console.log(fileItems)
+    });
   });
 
   $:directory, onChangeDirectory()
