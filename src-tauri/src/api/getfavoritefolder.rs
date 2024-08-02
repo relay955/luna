@@ -1,10 +1,12 @@
-use crate::db::favoritefolder;
+use heed::Env;
+use tauri::{ State};
+use crate::db::favorite_folder_accessor::FavoriteFolderAccessor;
 use crate::fileaccess::{drive, file};
 use crate::fileaccess::file::FileItem;
 
 #[tauri::command]
-pub fn get_favorite_folders() -> Vec<FileItem> {
-    let favorite_folders = favoritefolder::get_favorite_folders().unwrap();
+pub fn get_favorite_folders(db: State<Env>) -> Vec<FileItem> {
+    let favorite_folders = FavoriteFolderAccessor::new(&db).get().unwrap();
     
     let mut list: Vec<FileItem> = Vec::new();
     for item in favorite_folders {

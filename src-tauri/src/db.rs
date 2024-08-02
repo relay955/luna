@@ -1,16 +1,14 @@
 use std::fs;
 use heed::{Env, EnvOpenOptions};
 
-use lazy_static::lazy_static;
+pub mod favorite_folder_accessor;
 
-pub mod favoritefolder;
-
-lazy_static!{
-    static ref ENV:Env = unsafe {
-      let path = "./data";
-        fs::create_dir_all(path).unwrap();
-        EnvOpenOptions::new()
-        .max_dbs(30)
-        .open(path).unwrap()
-    };
+pub fn create_env() -> Env {
+    let path = "./data";
+    fs::create_dir_all(path).unwrap();
+    unsafe {
+        return EnvOpenOptions::new()
+            .max_dbs(30)
+            .open(path).unwrap();
+    }
 }

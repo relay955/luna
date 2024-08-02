@@ -15,6 +15,7 @@ use crate::api::openfile::open_file;
 use crate::api::getdrivelist::get_drive_list;
 use crate::api::getfavoritefolder::get_favorite_folders;
 use crate::api::searchfiles::search_files;
+use crate::db::{create_env};
 use crate::indexer::index_all_files;
 
 
@@ -22,9 +23,12 @@ mod fileaccess;
 mod api;
 mod db;
 mod indexer;
+mod jobscheduler;
 
-fn main() { 
+fn main() {
+    let path = "./data";
     tauri::Builder::default()
+        .manage(create_env())
         .setup(|app| {
             #[cfg(any(windows, target_os = "macos"))]
             set_shadow(&app.get_window("main").unwrap(),true).unwrap();
