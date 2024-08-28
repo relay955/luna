@@ -2,8 +2,9 @@
 export let style="";
 export let value:string;
 export let keydown:(e:KeyboardEvent)=>void;
+export let placeholder:string = "";
 </script>
-<input style={style} bind:value={value} on:keydown={keydown}/>
+<input style={style} bind:value={value} on:keydown={keydown} placeholder={placeholder}/>
 <style lang="scss">
     input{
         background: #ffffff;
