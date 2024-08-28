@@ -102,6 +102,7 @@
     invoke("get_favorite_folders").then((res) => {
       favoriteFolders = res as FileItem[];
     });
+    rightClickFileItems = [];
   }
 
 </script>
