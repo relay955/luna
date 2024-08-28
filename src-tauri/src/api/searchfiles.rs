@@ -12,7 +12,7 @@ pub fn search_files(command: &str) -> Result<Vec<FileItem>,String> {
 
     let file_items = file_paths
         .iter()
-        .map(|x| get_file_info(x).unwrap())
+        .map(|x| get_file_info(x).unwrap_or(FileItem::default()))
         .collect();
 
     Ok(file_items)

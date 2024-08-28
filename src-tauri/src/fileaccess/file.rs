@@ -13,6 +13,19 @@ pub struct FileItem {
     pub full_path: String
 }
 
+impl FileItem {
+    pub fn default() -> FileItem {
+        FileItem {
+            name: String::new(),
+            size: 0,
+            file_type: String::new(),
+            edit_date: String::new(),
+            hidden: false,
+            full_path: String::new()
+        }
+    }
+}
+
 impl Serialize for FileItem{
     fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
     where
