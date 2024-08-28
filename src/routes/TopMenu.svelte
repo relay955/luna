@@ -10,6 +10,7 @@
   import FaTicketAlt from "svelte-icons/fa/FaTicketAlt.svelte";
   import FaFile from 'svelte-icons/fa/FaFile.svelte'
   import FaArrowLeft from 'svelte-icons/fa/FaArrowLeft.svelte'
+  import {FaShieldAlt} from "svelte-icons/fa";
 
   export let searchbarMode: "filter" | "search" | "path" = "filter";
   export let directory: string;
@@ -18,10 +19,17 @@
   let temporaryDirectory: string;
   $:temporaryDirectory = directory;
 
+  let protectKey = "";
+
   const onEnterSearchInput = (e: KeyboardEvent) => {
     if (e.key != "Enter") return;
     directory = temporaryDirectory;
   }
+
+  const onClickStartProtection = () => {
+    console.log("start protection");
+  }
+
 </script>
 
 <div class="topmenu">
@@ -70,6 +78,12 @@
       </IconButton>
       <IconButton large style="margin-right:5px;">
         <FaFile/>
+      </IconButton>
+    </ButtonGroup>
+    <ButtonGroup name="adv.search" style="margin-left:5px">
+      <Input style="margin-left:5px; margin-right:5px; width: 100px; height: 15px" bind:value={protectKey}/>
+      <IconButton large style="margin-right:5px;" onClick={onClickStartProtection}>
+        <FaSearch/>
       </IconButton>
     </ButtonGroup>
   </div>
