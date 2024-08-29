@@ -1,7 +1,6 @@
 lockfileVersion: 5.4
 
 specifiers:
-  '@okrad/svelte-progressbar': ^2.1.0
   '@sveltejs/adapter-static': ^3.0.1
   '@sveltejs/kit': ^2.0.0
   '@sveltejs/vite-plugin-svelte': ^3.0.0
@@ -11,6 +10,7 @@ specifiers:
   svelte: ^4.2.7
   svelte-check: ^3.6.0
   svelte-icons: ^2.1.0
+  svelte-toasts: ^1.1.2
   svelte-tooltip: ^1.2.0
   tslib: ^2.4.1
   typescript: ^5.0.0
@@ -18,9 +18,9 @@ specifiers:
 
 dependencies:
   '@tauri-apps/api': 1.5.6
+  svelte-toasts: 1.1.2
 
 devDependencies:
-  '@okrad/svelte-progressbar': 2.2.0_svelte@4.2.18
   '@sveltejs/adapter-static': 3.0.2_@sveltejs+kit@2.5.16
   '@sveltejs/kit': 2.5.16_e4dodyljmuslx5ra37aamga4ci
   '@sveltejs/vite-plugin-svelte': 3.1.1_svelte@4.2.18+vite@5.3.1
@@ -300,14 +300,6 @@ packages:
     dependencies:
       '@nodelib/fs.scandir': 2.1.5
       fastq: 1.17.1
-    dev: true
-
-  /@okrad/svelte-progressbar/2.2.0_svelte@4.2.18:
-    resolution: {integrity: sha512-JB5XECrj0dEYJNnAH07XkIL5xObr9SIf0ora+wlNV9c2xwPQwlCCIWNnF8ZxH/V81QYa132c57piR0JWQRhZ3g==}
-    peerDependencies:
-      svelte: ^4.0.4
-    dependencies:
-      svelte: 4.2.18
     dev: true
 
   /@polka/url/0.5.0:
@@ -1323,6 +1315,10 @@ packages:
       svelte: 4.2.18
       typescript: 5.4.5
     dev: true
+
+  /svelte-toasts/1.1.2:
+    resolution: {integrity: sha512-m+yL4eEKXyJoyjTYaH1j1GFwF0Pi8YDqnVfwWPDmwi4712iZesv+TNCmToSNlav3R5Vkmc8ZBRkT8DOcu3sywQ==}
+    dev: false
 
   /svelte-tooltip/1.2.0:
     resolution: {integrity: sha512-FmaiNoCGkXBqF5AAscv+NdLtVIhywpqcaKw7mP1IksLJPMW3QaOPB8G23CHPQWde0J3A0NdCDQ3DI2isWGsDbg==}

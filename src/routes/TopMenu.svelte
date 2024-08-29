@@ -10,11 +10,14 @@
   import FaTicketAlt from "svelte-icons/fa/FaTicketAlt.svelte";
   import FaFile from 'svelte-icons/fa/FaFile.svelte'
   import FaArrowLeft from 'svelte-icons/fa/FaArrowLeft.svelte'
-  import {FaShieldAlt} from "svelte-icons/fa";
+  import FaLock from 'svelte-icons/fa/FaLock.svelte'
+  import SecureInput from "./common/SecureInput.svelte";
 
   export let searchbarMode: "filter" | "search" | "path" = "filter";
+  export let protectionMode: "protected" | "normal" = "normal";
   export let directory: string;
   export let onClickHistoryBack: () => void;
+  export let onClickProtectionMode: (protectKey:string) => void;
 
   let temporaryDirectory: string;
   $:temporaryDirectory = directory;
@@ -26,8 +29,9 @@
     directory = temporaryDirectory;
   }
 
-  const onClickStartProtection = () => {
-    console.log("start protection");
+  const onClickProtectionModeProxy = () => {
+    onClickProtectionMode(protectKey);
+    protectKey = "";
   }
 
 </script>
@@ -80,11 +84,20 @@
         <FaFile/>
       </IconButton>
     </ButtonGroup>
-    <ButtonGroup name="adv.search" style="margin-left:5px">
-      <Input style="margin-left:5px; margin-right:5px; width: 100px; height: 15px" bind:value={protectKey}/>
-      <IconButton large style="margin-right:5px;" onClick={onClickStartProtection}>
-        <FaSearch/>
-      </IconButton>
+    <ButtonGroup name="protection mode" style="margin-left:5px">
+      {#if protectionMode === "normal"}
+        <SecureInput style="margin-left:5px; margin-right:5px; width: 100px; height: 15px"
+               bind:value={protectKey}/>
+        <IconButton large style="margin-right:5px;" onClick={onClickProtectionModeProxy}>
+          <FaLock/>
+        </IconButton>
+      {/if}
+      {#if protectionMode === "protected"}
+        <div class="protect-status"> ACTIVE </div>
+        <IconButton large style="margin-right:5px;" onClick={onClickProtectionModeProxy}>
+          <FaLock/>
+        </IconButton>
+      {/if}
     </ButtonGroup>
   </div>
 </div>
@@ -103,5 +116,13 @@
   .container {
     display: flex;
     align-items: center;
+  }
+
+  .protect-status {
+    background-color: #c73838;
+    color: white;
+    padding: 2px 5px;
+    border-radius: 5px;
+    font-size: 10px;
   }
 </style>
