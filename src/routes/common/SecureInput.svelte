@@ -1,10 +1,8 @@
 <script lang=ts>
 export let style="";
 export let value:string;
-export let keydown:(e:KeyboardEvent)=>void = ()=>{};
-export let placeholder:string = "";
 </script>
-<input style={style} bind:value={value} on:keydown={keydown} placeholder={placeholder}/>
+<input type="password" style={style} bind:value={value}/>
 <style lang="scss">
     input{
         background: #ffffff;

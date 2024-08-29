@@ -14,10 +14,13 @@
     import type {DriveInfo} from "../logics/driveinfo";
     import FileRightClickMenu from "./FileRightClickMenu.svelte";
     import {containsNode} from "../utils/htmlnode";
+    import {FlatToast, ToastContainer, toasts} from "svelte-toasts";
+    import {parseErrorMessage} from "../utils/errorparser";
 
   let fileRightClickMenu:HTMLDivElement;
 
   let searchbarMode : "filter"|"search"|"path" = "path";
+  let protectionMode : "protected"|"normal" = "normal";
   let directory = "c:/";
   let fileItems:FileItem[] = [];
   let directoryHistory:string[] = [];
@@ -97,11 +100,35 @@
     directory = path;
   }
 
+  const onClickProtectionMode = async (protectKey: string) => {
+    if (protectionMode === "protected") {
+      try {
+        await invoke("exit_protection_mode");
+        protectionMode = "normal";
+      }catch (e) {
+        toasts.error(parseErrorMessage(e));
+      }
+      return;
+    }else if (protectionMode === "normal") {
+      try {
+        await invoke("enter_protection_mode", {password: protectKey});
+        protectionMode = "protected";
+      } catch (e) {
+        toasts.error(parseErrorMessage(e));
+      }
+    }
+  }
+
   const onClickFavorite = () => {
     invoke("add_favorite_folder", {fullPath: rightClickFileItems[0].full_path});
     invoke("get_favorite_folders").then((res) => {
       favoriteFolders = res as FileItem[];
     });
+    rightClickFileItems = [];
+  }
+
+  const onClickEncrypt = () => {
+    invoke("encrypt_file", {fullPath: rightClickFileItems[0].full_path});
     rightClickFileItems = [];
   }
 
@@ -112,7 +139,9 @@
   <TitleBar />
   <div style="margin-top: 30px;"></div>
   <TopMenu bind:searchbarMode={searchbarMode} bind:directory={directory}
+           bind:protectionMode={protectionMode}
            onClickHistoryBack={onClickHistoryBack}
+           onClickProtectionMode={onClickProtectionMode}
    />
   <div class="inner-container">
     <LeftItemList driveList={driveList}
@@ -129,7 +158,11 @@
                         y={rightClickPosY}
                         bind:container={fileRightClickMenu}
                         onClickFavorite={onClickFavorite}
+                        onClickEncrypt={onClickEncrypt}
     />
+  <ToastContainer placement="bottom-right" let:data={data}>
+    <FlatToast {data} />
+  </ToastContainer>
 </div>
 
 <style>
