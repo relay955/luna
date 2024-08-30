@@ -28,6 +28,10 @@ kernel32-sys = "0.2.2"
 heed = "0.20.3"
 tantivy = "0.22.0"
 thiserror = "1.0.61"
+sha2 = "0.10.8"
+aes = "0.8.4"
+cbc = "0.1.2"
+rand = "0.8.5"
 [features]
 # This feature is used for production builds or when a dev server is not specified, DO NOT REMOVE!!
 custom-protocol = ["tauri/custom-protocol"]

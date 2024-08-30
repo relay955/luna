@@ -127,8 +127,12 @@
     rightClickFileItems = [];
   }
 
-  const onClickEncrypt = () => {
-    invoke("encrypt_file", {fullPath: rightClickFileItems[0].full_path});
+  const onClickEncrypt = async () => {
+    try {
+      await invoke("encrypt_file", {fullPath: rightClickFileItems[0].full_path});
+    }catch (e){
+      toasts.error(parseErrorMessage(e));
+    }
     rightClickFileItems = [];
   }
 

@@ -8,7 +8,7 @@ pub mod getdrivelist;
 pub mod getfavoritefolder;
 pub mod addfavoritefolder;
 pub mod searchfiles;
-pub mod enterprotectionmode;
+pub mod protection_api;
 
 #[derive(Debug,thiserror::Error)]
 pub enum ApiError{

@@ -1,16 +1,38 @@
+use std::collections::HashMap;
 use std::os::windows::fs::MetadataExt;
+use std::ptr;
+use std::sync::Mutex;
 use chrono::{DateTime, Utc};
+use serde_json::from_str;
+use tauri::State;
+use windows::Win32::Foundation::CRYPT_E_OBJECT_LOCATOR_OBJECT_NOT_FOUND;
+use windows::Win32::UI::Shell::ReturnOnlyIfCached;
 use crate::fileaccess::file;
 use crate::fileaccess::file::FileItem;
+use crate::GlobalData;
+use crate::module::crypto::decrypt_binary_with_iv;
+use crate::module::enc_metadata::{key_to_enc_metadata_signature, EncMetadata};
 
 #[tauri::command]
-pub fn get_file_list(dir: &str, sort_by:&str, sort_direction:&str,
-                 grouping_mode:&str, search:&str, filter:&str) -> Result<Vec<FileItem>,String> {
+pub fn get_file_list(
+    global_data: State<Mutex<GlobalData>>,
+    dir: &str, sort_by:&str, sort_direction:&str,
+     grouping_mode:&str, search:&str, filter:&str) -> Result<Vec<FileItem>,String> {
     let mut list = match file::get_file_list(dir) {
         Ok(p) => p,
         Err(_) => return Err("Failed to read directory".to_string())
     };
+
+    //parse encrypted metadata
+    let global_data = global_data.lock().unwrap();
+    let encryption_key = global_data.encryption_key.clone();
+    drop(global_data);
     
+    if encryption_key.is_some() {
+        decrypt_metadata(encryption_key.unwrap().as_str(), &mut list);
+    }
+
+    //sort and filtering
     if sort_by == "name" {
         list.sort_by(|a, b| a.name.cmp(&b.name));
     } else if sort_by == "size" {
@@ -33,4 +55,27 @@ pub fn get_file_list(dir: &str, sort_by:&str, sort_direction:&str,
     }
     
     Ok(list)
+}
+
+fn decrypt_metadata(encryption_key:&str, file_list:&mut Vec<FileItem>){
+    let mut key = encryption_key.to_string();
+    let signature = key_to_enc_metadata_signature(&key);
+    let metadata_file = file_list.iter().find(|x| x.name.starts_with(&signature) && x.name.len() > 35);
+    if metadata_file.is_none() { return }
+    let metadata_file = metadata_file.unwrap();
+    //메타데이터 파일 바이너리 불러오기
+    let mut metadata_binary_buf = std::fs::read(metadata_file.full_path.as_str()).unwrap();
+    
+    //키로 복호화
+    decrypt_binary_with_iv(&key, &mut metadata_binary_buf);
+    
+    //json 파싱
+    let json_string = String::from_utf8(metadata_binary_buf).unwrap();
+    let metadata_list:HashMap<String, EncMetadata> = from_str(json_string.as_str()).unwrap();
+    
+    //비밀번호 복사한 부분 zerofill
+    unsafe{
+        let key_bytes = key.as_mut_vec();
+        ptr::write_bytes(key_bytes.as_mut_ptr(),0,key_bytes.len());
+    }
 }
