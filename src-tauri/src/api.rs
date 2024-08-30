@@ -1,3 +1,4 @@
+use std::string::FromUtf8Error;
 use serde::{Deserialize, Serialize};
 use tauri::InvokeError;
 
@@ -16,6 +17,8 @@ pub enum ApiError{
     Io(#[from] std::io::Error),
     #[error("Json::에러가 발생했습니다.")]
     Json(#[from] serde_json::Error),
+    #[error("FromUtf8::에러가 발생했습니다.")]
+    FromUtf8(#[from] FromUtf8Error),
     #[error("{code}::{msg}")]
     Validation {
         code: String,
@@ -31,7 +34,7 @@ impl From<ApiError> for InvokeError{
 }
 
 pub  enum ValidationError{
-    PasswordTooShort
+    PasswordTooShort,ParseFailed
 }
 
 impl From<ValidationError> for ApiError{
@@ -40,6 +43,10 @@ impl From<ValidationError> for ApiError{
             ValidationError::PasswordTooShort => ApiError::Validation{
                 code: "PASSWORD_TOO_SHORT".to_string(),
                 msg: "비밀번호는 10자 이상이어야 합니다.".to_string()
+            },
+            ValidationError::ParseFailed => ApiError::Validation{
+                code: "PARSE_FAILED".to_string(),
+                msg: "파싱에 실패했습니다.".to_string()
             }
         }
     }
