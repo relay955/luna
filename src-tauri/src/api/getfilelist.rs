@@ -63,15 +63,7 @@ fn decrypt_metadata(encryption_key:&str, file_list:&mut Vec<FileItem>){
     let metadata_file = file_list.iter().find(|x| x.name.starts_with(&signature) && x.name.len() > 35);
     if metadata_file.is_none() { return }
     let metadata_file = metadata_file.unwrap();
-    //메타데이터 파일 바이너리 불러오기
-    let mut metadata_binary_buf = std::fs::read(metadata_file.full_path.as_str()).unwrap();
-    
-    //키로 복호화
-    decrypt_binary_with_iv(&key, &mut metadata_binary_buf);
-    
-    //json 파싱
-    let json_string = String::from_utf8(metadata_binary_buf).unwrap();
-    let metadata_list:HashMap<String, EncMetadata> = from_str(json_string.as_str()).unwrap();
+
     
     //비밀번호 복사한 부분 zerofill
     unsafe{
