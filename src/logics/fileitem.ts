@@ -5,4 +5,5 @@ export interface FileItem {
     edit_date: string;
     hidden:boolean;
     full_path:string;
+    decrypted_name?:string;
 }

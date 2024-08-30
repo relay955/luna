@@ -7,25 +7,23 @@ use std::sync::Mutex;
 use base64::Engine;
 
 use serde::{Deserialize, Serialize};
-use tauri::{Icon, Manager};
+use tauri::Manager;
 use window_shadows::set_shadow;
 use crate::api::addfavoritefolder::add_favorite_folder;
-use crate::api::enterprotectionmode::{enter_protection_mode, exit_protection_mode, is_in_protection_mode};
+use crate::api::protection_api::{encrypt_file, enter_protection_mode, exit_protection_mode, is_in_protection_mode};
 use crate::api::getfilelist::get_file_list;
 use crate::api::geticons::get_icons;
 use crate::api::openfile::open_file;
 use crate::api::getdrivelist::get_drive_list;
 use crate::api::getfavoritefolder::get_favorite_folders;
 use crate::api::searchfiles::search_files;
-use crate::db::{create_env};
-use crate::indexer::index_all_files;
-
-
+use crate::db::create_env;
 mod fileaccess;
 mod api;
 mod db;
 mod indexer;
 mod jobscheduler;
+mod module;
 
 #[derive(Serialize, Deserialize)]
 pub struct GlobalData {
@@ -52,7 +50,8 @@ fn main() {
             search_files,
             enter_protection_mode,
             exit_protection_mode,
-            is_in_protection_mode
+            is_in_protection_mode,
+            encrypt_file
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

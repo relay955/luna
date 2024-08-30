@@ -1,16 +1,18 @@
+use std::collections::HashMap;
 use std::os::windows::fs::MetadataExt;
 use chrono::{DateTime, Utc};
 use serde::{Serialize, Serializer};
 use serde::ser::SerializeStruct;
 
-#[derive(Clone)]
+#[derive(Clone,Serialize)]
 pub struct FileItem {
     pub name: String,
     pub size: u64,
     pub file_type: String,
     pub edit_date: String,
     pub hidden: bool,
-    pub full_path: String
+    pub full_path: String,
+    pub decrypted_name :Option<String>,
 }
 
 impl FileItem {
@@ -21,24 +23,9 @@ impl FileItem {
             file_type: String::new(),
             edit_date: String::new(),
             hidden: false,
-            full_path: String::new()
+            full_path: String::new(),
+            decrypted_name: None
         }
-    }
-}
-
-impl Serialize for FileItem{
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: Serializer
-    {
-        let mut state = serializer.serialize_struct("FileItem", 5)?;
-        state.serialize_field("name", &self.name)?;
-        state.serialize_field("size", &self.size)?;
-        state.serialize_field("file_type", &self.file_type)?;
-        state.serialize_field("edit_date", &self.edit_date)?;
-        state.serialize_field("hidden", &self.hidden)?;
-        state.serialize_field("full_path", &self.full_path)?;
-        state.end()
     }
 }
 
@@ -56,7 +43,7 @@ pub fn get_file_list(dir:&str) -> Result<Vec<FileItem>,()> {
         list.insert(0,metadata_into_fileitem(&metadata, item.path().to_str().unwrap()));
     }
     
-    return Ok(list);
+    Ok(list)
 }
 
 pub fn get_file_info(full_path:&str) -> Result<FileItem,()> {
@@ -80,7 +67,8 @@ pub fn metadata_into_fileitem(metadata: &std::fs::Metadata, full_path:&str) -> F
         file_type: if metadata.is_dir() {String::from("dir")} else {String::from("file")},
         edit_date: dt.format("%Y-%m-%d %H:%M:%S").to_string(),
         hidden: metadata.file_attributes() & 0x00000002 != 0,
-        full_path: full_path.to_string()
+        full_path: full_path.to_string(),
+        decrypted_name: None
     };
     return file_info;
 }
