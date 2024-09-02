@@ -1,7 +1,12 @@
 <script lang="ts">
   import { appWindow } from "@tauri-apps/api/window";
-  import Space from "./common/Space.svelte";
+  import Space from "../basic-comp/Space.svelte";
   import logo from "../libs/icon.png";
+  import MdSettings from 'svelte-icons/md/MdSettings.svelte'
+  import IconButton from "../basic-comp/IconButton.svelte";
+
+  export let onClickSettingsButton: () => void;
+
   const onClickMinimize = () => appWindow.minimize();
   const onClickMaximize = () => appWindow.toggleMaximize();
   const onClickClose = () => appWindow.close();
@@ -11,6 +16,9 @@
   <img class="logo" src={logo} alt="luna_logo" />
   <div class="title">Luna</div>
   <Space />
+  <IconButton style="color: white" onClick={onClickSettingsButton}>
+    <MdSettings/>
+  </IconButton>
   <button
     class="titlebar-button"
     id="titlebar-minimize"

@@ -1,5 +1,4 @@
 <script>
-
     export let selected = false;
     export let large = false;
     export let style = "";
@@ -8,9 +7,7 @@
 </script>
 <button class={selected ? "selected":""} style={`${style} ${large ? "width:28px; height:28px;":""}`}
         on:click={onClick}>
-  <span style={large ? "width:20px; height:20px;" : "width:15px; height:15px;"}>
-    <slot></slot>
-  </span>
+  <slot></slot>
 </button>
 
 <style lang="scss">
@@ -19,17 +16,16 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 20px;
-    height: 20px;
-    background: white;
+    background: #7fb8ed;
     border: none;
     border-radius: 3px;
-    padding: 0;
+    padding: 2px 5px;
     box-sizing: border-box;
     cursor: pointer;
+    color: white;
 
     &:hover {
-      background: #e7e7e7;
+      background: #6694be;
     }
   }
 
