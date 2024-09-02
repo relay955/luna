@@ -1,5 +1,6 @@
-use std::string::FromUtf8Error;
+use heed::MdbError;
 use serde::{Deserialize, Serialize};
+use std::string::FromUtf8Error;
 use tauri::InvokeError;
 
 pub mod getfilelist;
@@ -19,6 +20,8 @@ pub enum ApiError{
     Json(#[from] serde_json::Error),
     #[error("FromUtf8::에러가 발생했습니다.")]
     FromUtf8(#[from] FromUtf8Error),
+    #[error("heed::에러가 발생했습니다.")]
+    Heed(#[from] heed::Error),
     #[error("{code}::{msg}")]
     Validation {
         code: String,
@@ -34,7 +37,7 @@ impl From<ApiError> for InvokeError{
 }
 
 pub  enum ValidationError{
-    PasswordTooShort,ParseFailed
+    PasswordTooShort,ParseFailed,DBOpenFailed
 }
 
 impl From<ValidationError> for ApiError{
@@ -47,6 +50,10 @@ impl From<ValidationError> for ApiError{
             ValidationError::ParseFailed => ApiError::Validation{
                 code: "PARSE_FAILED".to_string(),
                 msg: "파싱에 실패했습니다.".to_string()
+            },
+            ValidationError::DBOpenFailed => ApiError::Validation{
+                code: "DB_OPEN_FAILED".to_string(),
+                msg: "DB 열기에 실패했습니다.".to_string()
             }
         }
     }

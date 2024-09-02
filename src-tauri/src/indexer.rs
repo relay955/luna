@@ -1,9 +1,9 @@
 use std::error::Error;
 use std::fs;
 use std::time::Instant;
-use tantivy::{Index, IndexReader, IndexWriter, TantivyDocument};
 use tantivy::directory::MmapDirectory;
-use tantivy::schema::{Schema, STORED, TEXT, Value};
+use tantivy::schema::{Schema, Value, STORED, TEXT};
+use tantivy::{Index, IndexWriter, TantivyDocument};
 
 pub  fn index_all_files() -> Result<(),Box<dyn Error>>{
     let path = "./index";

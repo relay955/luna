@@ -6,8 +6,8 @@ use std::mem;
 use std::os::windows::ffi::OsStringExt;
 use std::ptr::null_mut;
 
-use serde::{Serialize, Serializer};
 use serde::ser::SerializeStruct;
+use serde::{Serialize, Serializer};
 use winapi::shared::ntdef::ULARGE_INTEGER;
 use winapi::um::errhandlingapi::GetLastError;
 use winapi::um::fileapi::{GetDiskFreeSpaceExW, GetLogicalDrives, GetVolumeInformationW};

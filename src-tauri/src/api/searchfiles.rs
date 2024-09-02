@@ -1,6 +1,4 @@
-use std::error::Error;
-use crate::fileaccess::associatedprogram::get_associated_program;
-use crate::fileaccess::file::{FileItem, get_file_info};
+use crate::fileaccess::file::{get_file_info, FileItem};
 use crate::indexer;
 
 #[tauri::command]

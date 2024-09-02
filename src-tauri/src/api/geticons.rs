@@ -1,7 +1,7 @@
-use std::collections::HashMap;
-use base64::Engine;
-use base64::engine::general_purpose;
 use crate::fileaccess::icon;
+use base64::engine::general_purpose;
+use base64::Engine;
+use std::collections::HashMap;
 
 #[tauri::command]
 pub fn get_icons(req:Vec<String>) -> Result<HashMap<String,String>,String> {

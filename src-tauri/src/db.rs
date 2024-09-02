@@ -1,7 +1,8 @@
-use std::fs;
 use heed::{Env, EnvOpenOptions};
+use std::fs;
 
 pub mod favorite_folder_accessor;
+pub mod luna_settings_accessor;
 
 pub fn create_env() -> Env {
     let path = "./data";

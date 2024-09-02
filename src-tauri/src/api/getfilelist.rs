@@ -1,18 +1,10 @@
-use std::collections::HashMap;
-use std::os::windows::fs::MetadataExt;
-use std::ptr;
-use std::sync::Mutex;
-use chrono::{DateTime, Utc};
-use serde_json::from_str;
-use tauri::State;
-use windows::Win32::Foundation::CRYPT_E_OBJECT_LOCATOR_OBJECT_NOT_FOUND;
-use windows::Win32::UI::Shell::ReturnOnlyIfCached;
 use crate::api::ApiError;
 use crate::fileaccess::file;
 use crate::fileaccess::file::FileItem;
-use crate::GlobalData;
-use crate::module::crypto::decrypt_binary_with_iv;
 use crate::module::enc_metadata::{key_to_enc_metadata_signature, EncMetadata};
+use crate::GlobalData;
+use std::sync::Mutex;
+use tauri::State;
 
 #[tauri::command]
 pub fn get_file_list(
