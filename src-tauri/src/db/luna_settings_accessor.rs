@@ -6,7 +6,7 @@ use serde::{Deserialize, Serialize};
 #[derive(Serialize,Deserialize)]
 pub struct LunaSettings{
     pub decrypt_folder_name:bool,
-    pub decrypt_temp_folder:String
+    pub decrypt_temp_folder_path:String
 }
 pub struct LunaSettingsAccessor<'a> {
     env:&'a Env
@@ -16,7 +16,7 @@ impl LunaSettings {
     pub fn new() -> LunaSettings {
         LunaSettings {
             decrypt_folder_name: false,
-            decrypt_temp_folder: "".to_string()
+            decrypt_temp_folder_path: "C:\\decrypt_temp".to_string()
         }
     }
 }
@@ -51,7 +51,7 @@ impl<'a> LunaSettingsAccessor<'a> {
         let mut wtxn = self.env.write_txn()?;
         let db:Database<Str,Str> = self.env.create_database(&mut wtxn,Some("settings"))?;
         let jsonstr = serde_json::to_string(&luna_settings)?;
-        db.put(&mut wtxn, &jsonstr, "")?;
+        db.put(&mut wtxn, "lunaSettings",&jsonstr)?;
         wtxn.commit()?;
         Ok(())
     }
