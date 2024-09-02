@@ -85,12 +85,16 @@
     }
   }
 
-  const onDoubleClickFileItem = (fileItem:FileItem) => {
-    if(fileItem.file_type == "dir"){
-      directoryHistory.push(directory);
-      directory = fileItem.full_path;
-    }else{
-      invoke("open_file",{filePath:fileItem.full_path});
+  const onDoubleClickFileItem = async (fileItem: FileItem) => {
+    try {
+      if (fileItem.file_type == "dir") {
+        directoryHistory.push(directory);
+        directory = fileItem.full_path;
+      } else {
+        await invoke("open_file", {filePath: fileItem.full_path});
+      }
+    } catch (e) {
+      toasts.error(parseErrorMessage(e));
     }
   }
 

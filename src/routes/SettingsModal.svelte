@@ -11,7 +11,7 @@
     export let onClose = () => {};
 
     let lunaSettings:LunaSettings = {
-        decrypt_folder_name: false,
+        decrypt_file_name: false,
         decrypt_temp_folder_path: ""
     }
 
@@ -38,7 +38,7 @@
     <div class="header">Protection Mode</div>
     <div style="display: flex; align-items: center">
       <span class="sub-header">파일명 복호화 </span>
-      <input type="checkbox" bind:checked={lunaSettings.decrypt_folder_name}
+      <input type="checkbox" bind:checked={lunaSettings.decrypt_file_name}
              style="width: 15px; height: 15px; margin-top: 5px"/>
     </div>
     <div class="description">임시 암호화 해제시, 파일명도 복호화합니다.</div>
