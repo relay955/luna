@@ -4,12 +4,13 @@
   "description": "",
   "type": "module",
   "scripts": {
+    "tauri": "tauri",
     "dev": "vite dev",
+    "launch-all": "tauri dev",
     "build": "vite build",
     "preview": "vite preview",
     "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
-    "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
-    "tauri": "tauri dev"
+    "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch"
   },
   "license": "MIT",
   "dependencies": {
