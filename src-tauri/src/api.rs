@@ -11,6 +11,7 @@ pub mod getfavoritefolder;
 pub mod addfavoritefolder;
 pub mod searchfiles;
 pub mod protection_api;
+pub mod luna_settings_api;
 
 #[derive(Debug,thiserror::Error)]
 pub enum ApiError{

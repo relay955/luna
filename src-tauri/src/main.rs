@@ -18,6 +18,8 @@ use crate::db::create_env;
 use serde::{Deserialize, Serialize};
 use tauri::Manager;
 use window_shadows::set_shadow;
+use crate::api::luna_settings_api::{get_luna_settings, update_luna_settings};
+
 mod fileaccess;
 mod api;
 mod db;
@@ -51,7 +53,9 @@ fn main() {
             enter_protection_mode,
             exit_protection_mode,
             is_in_protection_mode,
-            encrypt_file
+            encrypt_file,
+            get_luna_settings,
+            update_luna_settings
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
