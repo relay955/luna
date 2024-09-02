@@ -11,6 +11,7 @@
   import FaFile from 'svelte-icons/fa/FaFile.svelte'
   import FaArrowLeft from 'svelte-icons/fa/FaArrowLeft.svelte'
   import FaLock from 'svelte-icons/fa/FaLock.svelte'
+  import FaUnlock from 'svelte-icons/fa/FaUnlock.svelte'
   import SecureInput from "./common/SecureInput.svelte";
 
   export let searchbarMode: "filter" | "search" | "path" = "filter";
@@ -95,7 +96,7 @@
       {#if protectionMode === "protected"}
         <div class="protect-status"> ACTIVE </div>
         <IconButton large style="margin-right:5px;" onClick={onClickProtectionModeProxy}>
-          <FaLock/>
+          <FaUnlock/>
         </IconButton>
       {/if}
     </ButtonGroup>
