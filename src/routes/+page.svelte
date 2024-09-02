@@ -16,6 +16,8 @@
     import {containsNode} from "../utils/htmlnode";
     import {FlatToast, ToastContainer, toasts} from "svelte-toasts";
     import {parseErrorMessage} from "../utils/errorparser";
+    import Modal from "../complex-comp/Modal.svelte";
+    import SettingsModal from "./SettingsModal.svelte";
 
   let fileRightClickMenu:HTMLDivElement;
 
@@ -31,6 +33,8 @@
   let rightClickFileItems:FileItem[] = [];
   let rightClickPosX = 0;
   let rightClickPosY = 0;
+
+  let isOpenSettingsModal = false;
 
   let iconCache:IconCache = {
     ext: {},
@@ -66,7 +70,10 @@
     });
   }
 
-  const onClickAllScreen = (e:MouseEvent) => {
+  const onClickSettingsButton = () => isOpenSettingsModal = true
+  const onCloseSettingsModal = () => isOpenSettingsModal = false
+
+    const onClickAllScreen = (e:MouseEvent) => {
     if (e.button === 0 && !containsNode(fileRightClickMenu, e.target as HTMLElement)) {
       rightClickFileItems = [];
     }
@@ -143,7 +150,7 @@
 
 <!-- svelte-ignore a11y-no-static-element-interactions -->
 <div class="container" on:mousedown={onClickAllScreen}>
-  <TitleBar />
+  <TitleBar onClickSettingsButton={onClickSettingsButton} />
   <div style="margin-top: 30px;"></div>
   <TopMenu bind:searchbarMode={searchbarMode} bind:directory={directory}
            bind:protectionMode={protectionMode}
@@ -170,6 +177,7 @@
   <ToastContainer placement="bottom-right" let:data={data}>
     <FlatToast {data} />
   </ToastContainer>
+  <SettingsModal isOpen={isOpenSettingsModal}  onClose={onCloseSettingsModal} />
 </div>
 
 <style>

@@ -1,6 +1,6 @@
 <script lang="ts">
   import type {DriveInfo} from "../logics/driveinfo";
-  import ProgressBar from "./common/ProgressBar.svelte";
+  import ProgressBar from "../basic-comp/ProgressBar.svelte";
   import {beutifyFileSize} from "../utils/filesizeBeutifier";
   import type {FileItem} from "../logics/fileitem";
   export let driveList:DriveInfo[] = [];

@@ -1,10 +1,10 @@
 <script lang="ts">
-  import Input from "./common/Input.svelte";
+  import Input from "../basic-comp/Input.svelte";
   import FaSearch from "svelte-icons/fa/FaSearch.svelte";
-  import IconButton from "./common/IconButton.svelte";
+  import IconButton from "../basic-comp/IconButton.svelte";
   import FaFilter from "svelte-icons/fa/FaFilter.svelte";
   import FaFolderOpen from "svelte-icons/fa/FaFolderOpen.svelte";
-  import ButtonGroup from "./common/ButtonGroup.svelte";
+  import ButtonGroup from "../basic-comp/ButtonGroup.svelte";
   import FaListUl from "svelte-icons/fa/FaListUl.svelte";
   import FaThLarge from "svelte-icons/fa/FaThLarge.svelte";
   import FaTicketAlt from "svelte-icons/fa/FaTicketAlt.svelte";
@@ -12,7 +12,7 @@
   import FaArrowLeft from 'svelte-icons/fa/FaArrowLeft.svelte'
   import FaLock from 'svelte-icons/fa/FaLock.svelte'
   import FaUnlock from 'svelte-icons/fa/FaUnlock.svelte'
-  import SecureInput from "./common/SecureInput.svelte";
+  import SecureInput from "../basic-comp/SecureInput.svelte";
 
   export let searchbarMode: "filter" | "search" | "path" = "filter";
   export let protectionMode: "protected" | "normal" = "normal";
