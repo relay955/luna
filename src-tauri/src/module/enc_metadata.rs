@@ -39,7 +39,6 @@ impl EncMetadata {
 
         //json 파싱
         let json_string = String::from_utf8(metadata_binary_buf)?;
-        println!("{}",json_string);
         let metadata_list:HashMap<String, EncMetadata> = from_str(json_string.as_str()).unwrap();
         Ok(metadata_list)
     }
@@ -56,5 +55,11 @@ impl EncMetadata {
         encrypt_binary_with_iv(&key, &mut metadata_binary_buf);
         std::fs::write(metadata_path, metadata_binary_buf)?;
         Ok(())
+    }
+    
+    pub fn insert(folder_path:&str, key:&str, value:EncMetadata) {
+        let mut metadata_list = EncMetadata::open(folder_path, key).unwrap();
+        metadata_list.insert(key.to_string(), value);
+        EncMetadata::save(folder_path, key, &metadata_list).unwrap();
     }
 }
