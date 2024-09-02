@@ -60,9 +60,14 @@ pub fn get_file_list(
 
 fn decrypt_metadata(encryption_key:&str, dir:&str, file_list:&mut Vec<FileItem>) -> Result<(),ApiError>{
     let enc_metadata_list = EncMetadata::open(dir, encryption_key)?;
+    let metadata_file_name = "file||".to_string()+&key_to_enc_metadata_signature(encryption_key)+".encrypted";
     
     for item in file_list.iter_mut() {
         let key = item.file_type.clone() + "||" + item.name.as_str();
+        if key == metadata_file_name { 
+            item.decrypted_name = Some("ENC_METADATA".to_string());
+            continue;
+        }
         if !enc_metadata_list.contains_key(&key) { continue; }
         let enc_metadata = match enc_metadata_list.get(&key) {
             Some(m) => m,

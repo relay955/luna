@@ -35,6 +35,12 @@
     protectKey = "";
   }
 
+  const onEnterProtectionKeyInput = (e: KeyboardEvent) => {
+    if (e.key === "Enter") {
+      onClickProtectionModeProxy();
+    }
+  }
+
 </script>
 
 <div class="topmenu">
@@ -88,7 +94,7 @@
     <ButtonGroup name="protection mode" style="margin-left:5px">
       {#if protectionMode === "normal"}
         <SecureInput style="margin-left:5px; margin-right:5px; width: 100px; height: 15px"
-               bind:value={protectKey}/>
+               bind:value={protectKey} onKeyDown={onEnterProtectionKeyInput}/>
         <IconButton large style="margin-right:5px;" onClick={onClickProtectionModeProxy}>
           <FaLock/>
         </IconButton>
