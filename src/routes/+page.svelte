@@ -74,6 +74,12 @@
     if (e.button === 0 && !containsNode(fileRightClickMenu, e.target as HTMLElement)) {
       rightClickFileItems = [];
     }
+    if (e.button === 3) {
+      onClickHistoryBack()
+    }
+    if (e.button === 4) {
+      e.preventDefault();
+    }
   }
 
   const onDoubleClickFileItem = (fileItem:FileItem) => {
