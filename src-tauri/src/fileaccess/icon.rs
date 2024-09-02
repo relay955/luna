@@ -1,19 +1,12 @@
-use ptr::null;
-use winapi::um::shellapi::{SHFILEINFOW, SHGetFileInfoW};
+use image::codecs::png::PngEncoder;
+use image::{ImageBuffer, ImageEncoder, Rgba};
+use std::ptr;
+use widestring::U16CString;
 use winapi::um::shellapi::SHGFI_ICON;
 use winapi::um::shellapi::SHGFI_LARGEICON;
-use winapi::um::winuser::{DestroyIcon, GetIconInfo, GetUserObjectSecurity, ICONINFO};
-use winapi::um::wingdi::{BITMAP, BITMAPINFO, BITMAPINFOHEADER, DIB_RGB_COLORS, GetDIBits, GetObjectW, RGBQUAD};
-use widestring::U16CString;
-use std::{ptr, result};
-use std::collections::HashMap;
-use std::io::Write;
-use std::path::Path;
-use std::sync::Mutex;
-use image::{ImageBuffer, ImageEncoder, Rgba};
-use image::codecs::png::PngEncoder;
-use lazy_static::lazy_static;
-use once_cell::unsync::Lazy;
+use winapi::um::shellapi::{SHGetFileInfoW, SHFILEINFOW};
+use winapi::um::wingdi::{GetDIBits, GetObjectW, BITMAP, BITMAPINFO, BITMAPINFOHEADER, DIB_RGB_COLORS, RGBQUAD};
+use winapi::um::winuser::{DestroyIcon, GetIconInfo, ICONINFO};
 
 pub fn get_icon(file_path: &str) -> Result<Vec<u8>,i32> {
     let file_path = file_path.replace("/", "\\");

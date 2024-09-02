@@ -1,5 +1,5 @@
-use heed::{Database, Env, RwTxn};
 use heed::types::Str;
+use heed::{Database, Env};
 
 pub struct FavoriteFolderAccessor<'a> {
     env:&'a Env

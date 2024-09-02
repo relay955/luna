@@ -1,8 +1,7 @@
-use std::collections::HashMap;
-use std::os::windows::fs::MetadataExt;
 use chrono::{DateTime, Utc};
-use serde::{Serialize, Serializer};
 use serde::ser::SerializeStruct;
+use serde::{Serialize, Serializer};
+use std::os::windows::fs::MetadataExt;
 
 #[derive(Clone,Serialize)]
 pub struct FileItem {

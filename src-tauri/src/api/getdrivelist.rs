@@ -1,5 +1,5 @@
-use crate::fileaccess::{drive, file};
 use crate::fileaccess::drive::DriveInfo;
+use crate::fileaccess::drive;
 
 #[tauri::command]
 pub fn get_drive_list() -> Vec<DriveInfo> {

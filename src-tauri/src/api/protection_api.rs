@@ -1,12 +1,12 @@
+use crate::api::{ApiError, ValidationError};
+use crate::module::crypto::encrypt_binary_with_iv;
+use crate::module::enc_metadata::{key_to_enc_metadata_signature, EncMetadata};
+use crate::module::random_util::generate_hex_string;
+use crate::GlobalData;
 use std::ops::Add;
 use std::path::Path;
 use std::sync::Mutex;
 use tauri::State;
-use crate::api::{ApiError, ValidationError};
-use crate::GlobalData;
-use crate::module::crypto::encrypt_binary_with_iv;
-use crate::module::enc_metadata::{key_to_enc_metadata_signature, EncMetadata};
-use crate::module::random_util::generate_hex_string;
 
 #[tauri::command]
 pub fn enter_protection_mode(mut global_data:State<Mutex<GlobalData>>, password:&str) -> Result<(),ApiError>{

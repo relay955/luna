@@ -1,6 +1,6 @@
 use std::ptr;
 use widestring::U16CString;
-use winapi::shared::winerror::S_OK;
+use windows::core::PWSTR;
 use windows::{
     core::PCWSTR,
     Win32::System::Com::{CoInitializeEx, COINIT_APARTMENTTHREADED},
@@ -8,7 +8,6 @@ use windows::{
     Win32::UI::Shell::ASSOCF_NONE,
     Win32::UI::Shell::ASSOCSTR_EXECUTABLE,
 };
-use windows::core::PWSTR;
 
 pub fn get_associated_program(extension: &str) -> Option<String> {
     unsafe {

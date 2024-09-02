@@ -1,8 +1,8 @@
-use heed::Env;
-use tauri::{ State};
 use crate::db::favorite_folder_accessor::FavoriteFolderAccessor;
-use crate::fileaccess::{drive, file};
 use crate::fileaccess::file::FileItem;
+use crate::fileaccess::file;
+use heed::Env;
+use tauri::State;
 
 #[tauri::command]
 pub fn get_favorite_folders(db: State<Env>) -> Vec<FileItem> {
