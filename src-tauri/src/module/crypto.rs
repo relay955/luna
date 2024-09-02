@@ -29,6 +29,9 @@ pub fn decrypt_binary_with_iv(key:&str, binary: &mut Vec<u8>){
     binary.truncate(binary.len()-16);
     let decryptor = AesCbcDec::new(key_array, iv_array);
     decryptor.decrypt_padded_mut::<Pkcs7>(binary).unwrap();
+    //복호화 후 패딩길이만큼 제거
+    let padding_len = binary[binary.len()-1];
+    binary.truncate(binary.len()-padding_len as usize);
 }
 
 ///랜덤 iv를 생성하여 바이너리를 암호화합니다. iv는 암호화된 바이너리의 마지막에 추가됩니다.
@@ -46,7 +49,7 @@ pub fn encrypt_binary_with_iv(key:&str, binary:&mut Vec<u8>){
     //바이너리 버퍼의 길이가 부족한경우 패딩 추가
     if binary_len % 16 != 0 {
         let padding_len = 16 - binary_len % 16;
-        binary.extend_from_slice(&vec![padding_len as u8; padding_len]);
+        binary.extend_from_slice(&vec![0u8; padding_len]);
     }
     let mut encryptor = AesCbcEnc::new(key_array,iv_array);
     encryptor.encrypt_padded_mut::<Pkcs7>(binary,binary_len).unwrap();
