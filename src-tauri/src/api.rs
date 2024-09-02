@@ -38,7 +38,8 @@ impl From<ApiError> for InvokeError{
 }
 
 pub  enum ValidationError{
-    PasswordTooShort,ParseFailed,DBOpenFailed
+    PasswordTooShort,ParseFailed,DBOpenFailed,
+    DecryptFailed,
 }
 
 impl From<ValidationError> for ApiError{
@@ -55,6 +56,10 @@ impl From<ValidationError> for ApiError{
             ValidationError::DBOpenFailed => ApiError::Validation{
                 code: "DB_OPEN_FAILED".to_string(),
                 msg: "DB 열기에 실패했습니다.".to_string()
+            },
+            ValidationError::DecryptFailed => ApiError::Validation{
+                code: "DECRYPT_FAILED".to_string(),
+                msg: "파일 복호화에 실패했습니다.".to_string()
             }
         }
     }

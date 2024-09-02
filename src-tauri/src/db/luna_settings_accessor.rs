@@ -5,7 +5,7 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Serialize,Deserialize)]
 pub struct LunaSettings{
-    pub decrypt_folder_name:bool,
+    pub decrypt_file_name:bool,
     pub decrypt_temp_folder_path:String
 }
 pub struct LunaSettingsAccessor<'a> {
@@ -15,7 +15,7 @@ pub struct LunaSettingsAccessor<'a> {
 impl LunaSettings {
     pub fn new() -> LunaSettings {
         LunaSettings {
-            decrypt_folder_name: false,
+            decrypt_file_name: false,
             decrypt_temp_folder_path: "C:\\decrypt_temp".to_string()
         }
     }
