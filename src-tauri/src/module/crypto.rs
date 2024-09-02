@@ -10,11 +10,13 @@ use rand::RngCore;
 type AesCbcEnc = Encryptor<Aes256>;
 type AesCbcDec = Decryptor<Aes256>;
 
+/// 랜덤 IV를 생성합니다.
 fn generate_iv() -> Vec<u8>{
     let mut iv = [0u8; 16];
     rand::thread_rng().fill_bytes(&mut iv);
     iv.to_vec()
 }
+
 ///iv가 포함된 바이너리를 키로 복호화합니다. iv는 바이너리의 마지막 16바이트에 위치한다고 가정합니다.
 pub fn decrypt_binary_with_iv(key:&str, binary: &mut Vec<u8>){
     let key = hash::str_to_sha256_binary(key);
@@ -47,10 +49,10 @@ pub fn encrypt_binary_with_iv(key:&str, binary:&mut Vec<u8>){
     
     let binary_len = binary.len();
     //바이너리 버퍼의 길이가 부족한경우 패딩 추가
-    if binary_len % 16 != 0 {
-        let padding_len = 16 - binary_len % 16;
-        binary.extend_from_slice(&vec![0u8; padding_len]);
-    }
+    let mut padding_len = 16 - binary_len % 16;
+    if padding_len == 0 { padding_len = 16 }
+    binary.extend_from_slice(&vec![0u8; padding_len]);
+    
     let mut encryptor = AesCbcEnc::new(key_array,iv_array);
     encryptor.encrypt_padded_mut::<Pkcs7>(binary,binary_len).unwrap();
     binary.extend_from_slice(&iv);

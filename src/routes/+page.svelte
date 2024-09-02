@@ -52,8 +52,8 @@
     });
   });
 
-  $:directory, onChangeDirectory()
-  const onChangeDirectory = () =>{
+  $:directory, refreshCurrentDirectory()
+  const refreshCurrentDirectory = () =>{
     let options = {
       dir:directory,
       sortBy:"name",
@@ -108,7 +108,6 @@
       }catch (e) {
         toasts.error(parseErrorMessage(e));
       }
-      return;
     }else if (protectionMode === "normal") {
       try {
         await invoke("enter_protection_mode", {password: protectKey});
@@ -117,6 +116,7 @@
         toasts.error(parseErrorMessage(e));
       }
     }
+    refreshCurrentDirectory();
   }
 
   const onClickFavorite = () => {
@@ -130,7 +130,7 @@
   const onClickEncrypt = async () => {
     try {
       await invoke("encrypt_file", {fullPath: rightClickFileItems[0].full_path});
-      onChangeDirectory()
+      refreshCurrentDirectory()
     }catch (e){
       toasts.error(parseErrorMessage(e));
     }

@@ -12,6 +12,7 @@ pub struct FileItem {
     pub edit_date: String,
     pub hidden: bool,
     pub full_path: String,
+    
     pub decrypted_name :Option<String>,
 }
 

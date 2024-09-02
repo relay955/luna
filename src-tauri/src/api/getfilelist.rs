@@ -7,6 +7,7 @@ use serde_json::from_str;
 use tauri::State;
 use windows::Win32::Foundation::CRYPT_E_OBJECT_LOCATOR_OBJECT_NOT_FOUND;
 use windows::Win32::UI::Shell::ReturnOnlyIfCached;
+use crate::api::ApiError;
 use crate::fileaccess::file;
 use crate::fileaccess::file::FileItem;
 use crate::GlobalData;
@@ -29,7 +30,7 @@ pub fn get_file_list(
     drop(global_data);
     
     if encryption_key.is_some() {
-        decrypt_metadata(encryption_key.unwrap().as_str(), &mut list);
+        decrypt_metadata(encryption_key.unwrap().as_str(), dir, &mut list);
     }
 
     //sort and filtering
@@ -57,17 +58,19 @@ pub fn get_file_list(
     Ok(list)
 }
 
-fn decrypt_metadata(encryption_key:&str, file_list:&mut Vec<FileItem>){
-    let mut key = encryption_key.to_string();
-    let signature = key_to_enc_metadata_signature(&key);
-    let metadata_file = file_list.iter().find(|x| x.name.starts_with(&signature) && x.name.len() > 35);
-    if metadata_file.is_none() { return }
-    let metadata_file = metadata_file.unwrap();
-
+fn decrypt_metadata(encryption_key:&str, dir:&str, file_list:&mut Vec<FileItem>) -> Result<(),ApiError>{
+    let enc_metadata_list = EncMetadata::open(dir, encryption_key)?;
     
-    //비밀번호 복사한 부분 zerofill
-    unsafe{
-        let key_bytes = key.as_mut_vec();
-        ptr::write_bytes(key_bytes.as_mut_ptr(),0,key_bytes.len());
+    for item in file_list.iter_mut() {
+        let key = item.file_type.clone() + "||" + item.name.as_str();
+        if !enc_metadata_list.contains_key(&key) { continue; }
+        let enc_metadata = match enc_metadata_list.get(&key) {
+            Some(m) => m,
+            None => continue
+        };
+        
+        item.decrypted_name = Some(enc_metadata.real_name.clone());
     }
+    
+    Ok(())
 }
