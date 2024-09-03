@@ -1,28 +1,29 @@
-use crate::api::ApiError;
+use crate::api::{ApiError, ValidationError};
 use crate::fileaccess::file;
 use crate::fileaccess::file::FileItem;
-use crate::module::enc_metadata::{key_to_enc_metadata_signature, EncMetadata};
-use crate::GlobalData;
-use std::sync::Mutex;
+use crate::module::enc_metadata::{EncMetadata};
+use crate::Protection;
+use std::sync::{Mutex, RwLock};
 use tauri::State;
 
 #[tauri::command]
 pub fn get_file_list(
-    global_data: State<Mutex<GlobalData>>,
+    protection: State<RwLock<Protection>>,
     dir: &str, sort_by:&str, sort_direction:&str,
-     grouping_mode:&str, search:&str, filter:&str) -> Result<Vec<FileItem>,String> {
+    grouping_mode:&str, search:&str, filter:&str) -> Result<Vec<FileItem>,ApiError> {
     let mut list = match file::get_file_list(dir) {
         Ok(p) => p,
-        Err(_) => return Err("Failed to read directory".to_string())
+        Err(_) => return Err(ValidationError::ParseFailed.into())
     };
 
     //parse encrypted metadata
-    let global_data = global_data.lock().unwrap();
-    let encryption_key = global_data.encryption_key.clone();
-    drop(global_data);
-    
-    if encryption_key.is_some() {
-        decrypt_metadata(encryption_key.unwrap().as_str(), dir, &mut list);
+    {
+        let protection = protection.read().unwrap();
+        let key = protection.key.as_ref();
+
+        if key.is_some() {
+            decrypt_metadata(key.unwrap(), dir, &mut list)?;
+        }
     }
 
     //sort and filtering
@@ -51,22 +52,18 @@ pub fn get_file_list(
 }
 
 fn decrypt_metadata(encryption_key:&str, dir:&str, file_list:&mut Vec<FileItem>) -> Result<(),ApiError>{
-    let enc_metadata_list = EncMetadata::open(dir, encryption_key)?;
-    let metadata_file_name = "file||".to_string()+&key_to_enc_metadata_signature(encryption_key)+".encrypted";
+    let enc_metadata = EncMetadata::open(dir, encryption_key)?;
     
     for item in file_list.iter_mut() {
-        let key = item.file_type.clone() + "||" + item.name.as_str();
-        if key == metadata_file_name { 
+        if enc_metadata.is_target_metadata(&item.full_path) { 
             item.decrypted_name = Some("ENC_METADATA".to_string());
             continue;
         }
-        if !enc_metadata_list.contains_key(&key) { continue; }
-        let enc_metadata = match enc_metadata_list.get(&key) {
+        let enc_file_item = match enc_metadata.get_enc_file_item(&item.full_path){
             Some(m) => m,
             None => continue
         };
-        
-        item.decrypted_name = Some(enc_metadata.real_name.clone());
+        item.decrypted_name = Some(enc_file_item.real_name.clone());
     }
     
     Ok(())
