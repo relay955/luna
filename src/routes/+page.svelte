@@ -150,6 +150,16 @@
     rightClickFileItems = [];
   }
 
+  const onClickDecrypt = async () => {
+    try {
+      await invoke("force_decrypt_file", {fullPath: rightClickFileItems[0].full_path});
+      refreshCurrentDirectory()
+    }catch (e){
+      toasts.error(parseErrorMessage(e));
+    }
+    rightClickFileItems = [];
+  }
+
 </script>
 
 <!-- svelte-ignore a11y-no-static-element-interactions -->
@@ -177,6 +187,7 @@
                         bind:container={fileRightClickMenu}
                         onClickFavorite={onClickFavorite}
                         onClickEncrypt={onClickEncrypt}
+                        onClickDecrypt={onClickDecrypt}
     />
   <ToastContainer placement="bottom-right" let:data={data}>
     <FlatToast {data} />

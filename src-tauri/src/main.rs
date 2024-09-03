@@ -12,7 +12,7 @@ use crate::api::getfavoritefolder::get_favorite_folders;
 use crate::api::getfilelist::get_file_list;
 use crate::api::geticons::get_icons;
 use crate::api::openfile::open_file;
-use crate::api::protection_api::{encrypt_file, enter_protection_mode, exit_protection_mode, is_in_protection_mode};
+use crate::api::protection_api::{encrypt_file, enter_protection_mode, exit_protection_mode, force_decrypt_file, is_in_protection_mode};
 use crate::api::searchfiles::search_files;
 use crate::db::create_env;
 use serde::{Deserialize, Serialize};
@@ -54,8 +54,9 @@ fn main() {
             exit_protection_mode,
             is_in_protection_mode,
             encrypt_file,
+            force_decrypt_file,
             get_luna_settings,
-            update_luna_settings
+            update_luna_settings,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

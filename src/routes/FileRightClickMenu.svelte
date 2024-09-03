@@ -7,13 +7,19 @@
     export let container:HTMLDivElement;
     export let onClickFavorite:()=>void;
     export let onClickEncrypt:()=>void;
+    export let onClickDecrypt:()=>void;
 
 </script>
 {#if fileItems.length > 0}
 <div class="container" style="top:{y}px; left:{x}px;" bind:this={container}>
   <div class="section">File</div>
   <button on:click={onClickFavorite}>즐겨찾기</button>
-  <button on:click={onClickEncrypt}>보호</button>
+  {#if fileItems.length === 1 && fileItems[0].name.endsWith(".encrypted")}
+    <button on:click={onClickDecrypt}>보호 해제</button>
+  {/if}
+  {#if !fileItems.every(fileItems => fileItems.name.endsWith(".encrypted"))}
+    <button on:click={onClickEncrypt}>보호</button>
+  {/if}
 </div>
 {/if}
 
