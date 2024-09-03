@@ -63,35 +63,24 @@ pub fn encrypt_file(protection:State<RwLock<Protection>>, full_path:&str) -> Res
 }
 #[tauri::command]
 pub fn force_decrypt_file(protection:State<RwLock<Protection>>, full_path:&str) -> Result<(),ApiError>{
-    // let protection = protection.read().unwrap();
-    // let key = protection.key.as_ref()
-    //     .ok_or(ValidationError::NotInProtectionMode.into())?;
-    // 
-    // let mut file = std::fs::read(full_path)?;
-    // 
-    // decrypt_binary_with_iv(key, &mut file);
-    // let full_path = Path::new(full_path);
-    // let real_name = decrypt_folder_name(&encryption_key, &file_path)
-    //     .ok_or(ValidationError::DecryptFailed)?;
-    // let encrypted_full_path = full_path.with_file_name(&rand_file_name);
-    // 
-    // std::fs::write(&encrypted_full_path, file)?;
-    // 
-    // 
-    // let metadata_path = full_path.parent().ok_or(ValidationError::ParseFailed)?;
-    // let metadata_path = metadata_path.to_str().ok_or(ValidationError::ParseFailed)?;
-    // //메타데이터 업데이트
-    // let mut enc_metadata = EncMetadata::open(metadata_path, encryption_key.as_str())?;
-    // 
-    // let real_name = full_path.file_name().ok_or(ValidationError::ParseFailed)?;
-    // let real_name = real_name.to_str().ok_or(ValidationError::ParseFailed)?;
-    // let real_name = real_name.to_string();
-    // 
-    // 
-    // enc_metadata.insert(EncMetadata{
-    //     real_name
-    // });
-    // 
-    // EncMetadata::save(metadata_path, encryption_key.as_str(), &enc_metadata)?;
+    let protection = protection.read().unwrap();
+    let key = protection.key.as_ref()
+        .ok_or(ValidationError::NotInProtectionMode)?;
+
+    let full_path_obj = Path::new(full_path);
+    let metadata_path = full_path_obj.parent().ok_or(ValidationError::ParseFailed)?;
+    let metadata_path = metadata_path.to_str().ok_or(ValidationError::ParseFailed)?;
+    let mut enc_metadata = EncMetadata::open(metadata_path, key)?;
+    
+    let real_name = enc_metadata.get_enc_file_item(full_path)
+        .ok_or(ValidationError::ParseFailed)?
+        .real_name.clone();
+
+    let mut file = std::fs::read(full_path)?;
+    decrypt_binary_with_iv(key, &mut file);
+
+    let decrypt_target_path = full_path_obj.with_file_name(&real_name);
+    std::fs::write(&decrypt_target_path, file)?;
+    
     Ok(())
 }
