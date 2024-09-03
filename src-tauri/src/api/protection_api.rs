@@ -1,79 +1,97 @@
 use crate::api::{ApiError, ValidationError};
-use crate::module::crypto::encrypt_binary_with_iv;
-use crate::module::enc_metadata::{key_to_enc_metadata_signature, EncMetadata};
-use crate::module::random_util::generate_hex_string;
-use crate::GlobalData;
-use std::ops::Add;
+use crate::module::crypto::{decrypt_binary_with_iv, encrypt_binary_with_iv};
+use crate::module::enc_metadata::{EncFileItem, EncMetadata};
+use crate::Protection;
 use std::path::Path;
-use std::sync::Mutex;
+use std::sync::RwLock;
 use tauri::State;
 
 #[tauri::command]
-pub fn enter_protection_mode(mut global_data:State<Mutex<GlobalData>>, password:&str) -> Result<(),ApiError>{
-    let mut global_data = global_data.lock().unwrap();
+pub fn enter_protection_mode(mut protection:State<RwLock<Protection>>, password:&str) -> Result<(),ApiError>{
     if password.len() < 10 {
         return Err(ValidationError::PasswordTooShort.into());
     }
-    global_data.encryption_key = Some(password.to_string());
+    {
+        let mut protection = protection.write().unwrap();
+        protection.key = Some(password.to_string());
+    }
     Ok(())
 }
 
 #[tauri::command]
-pub fn exit_protection_mode(mut global_data:State<Mutex<GlobalData>>){
-    let mut global_data = global_data.lock().unwrap();
-    global_data.encryption_key = None;
+pub fn exit_protection_mode(mut protection:State<RwLock<Protection>>){
+    let mut protection = protection.write().unwrap();
+    protection.key = None;
 }
 
 #[tauri::command]
-pub fn is_in_protection_mode(global_data:State<Mutex<GlobalData>>) -> bool {
-    let mut global_data = global_data.lock().unwrap();
-    global_data.encryption_key.is_some()
+pub fn is_in_protection_mode(protection:State<RwLock<Protection>>) -> bool {
+    let mut protection = protection.read().unwrap();
+    protection.key.is_some()
 }
 
 #[tauri::command]
-pub fn encrypt_file(global_data:State<Mutex<GlobalData>>, full_path:&str) -> Result<(),ApiError>{
-    let global_data = global_data.lock().unwrap();
-    let encryption_key = global_data.encryption_key.clone();
-    drop(global_data);
-    if encryption_key.is_none() {
-        //TODO 추후 별도 정의
-        return Err(ApiError::Validation{
-            code: "NOT_IN_PROTECTION_MODE".to_string(),
-            msg: "보호 모드가 아닙니다.".to_string()
-        });
-    }
-    let encryption_key = encryption_key.unwrap();
-    
-    let enc_metadata_signature = key_to_enc_metadata_signature(encryption_key.as_str());
+pub fn encrypt_file(protection:State<RwLock<Protection>>, full_path:&str) -> Result<(),ApiError>{
+    let protection = protection.read().unwrap();
+    let key = protection.key.as_ref()
+        .ok_or(ValidationError::NotInProtectionMode)?;
+
+    let full_path = Path::new(full_path);
+    let metadata_path = full_path.parent().ok_or(ValidationError::ParseFailed)?;
+    let metadata_path = metadata_path.to_str().ok_or(ValidationError::ParseFailed)?;
+    let mut enc_metadata = EncMetadata::open(metadata_path, key)?;
     
     let mut file = std::fs::read(full_path)?;
-    let mut rand_file_name = generate_hex_string(20);
-    while rand_file_name.starts_with(&enc_metadata_signature){
-        rand_file_name = generate_hex_string(20);
-    }
-    rand_file_name = rand_file_name.add(".encrypted");
-
-    encrypt_binary_with_iv(encryption_key.as_str(), &mut file);
-    let full_path = Path::new(full_path);
+    let rand_file_name = enc_metadata.generate_random_file_name(true);
     let encrypted_full_path = full_path.with_file_name(&rand_file_name);
+
+    encrypt_binary_with_iv(key, &mut file);
     
     std::fs::write(&encrypted_full_path, file)?;
     
-    
-    let metadata_path = full_path.parent().ok_or(ValidationError::ParseFailed)?;
-    let metadata_path = metadata_path.to_str().ok_or(ValidationError::ParseFailed)?;
     //메타데이터 업데이트
-    let mut enc_metadata = EncMetadata::open(metadata_path, encryption_key.as_str())?;
-    
     let real_name = full_path.file_name().ok_or(ValidationError::ParseFailed)?;
     let real_name = real_name.to_str().ok_or(ValidationError::ParseFailed)?;
     let real_name = real_name.to_string();
     
-    
-    enc_metadata.insert(format!("file||{rand_file_name}"), EncMetadata{
+    enc_metadata.insert(&rand_file_name,EncFileItem{
         real_name
     });
     
-    EncMetadata::save(metadata_path, encryption_key.as_str(), &enc_metadata)?;
+    enc_metadata.save(key)?;
+    Ok(())
+}
+#[tauri::command]
+pub fn force_decrypt_file(protection:State<RwLock<Protection>>, full_path:&str) -> Result<(),ApiError>{
+    // let protection = protection.read().unwrap();
+    // let key = protection.key.as_ref()
+    //     .ok_or(ValidationError::NotInProtectionMode.into())?;
+    // 
+    // let mut file = std::fs::read(full_path)?;
+    // 
+    // decrypt_binary_with_iv(key, &mut file);
+    // let full_path = Path::new(full_path);
+    // let real_name = decrypt_folder_name(&encryption_key, &file_path)
+    //     .ok_or(ValidationError::DecryptFailed)?;
+    // let encrypted_full_path = full_path.with_file_name(&rand_file_name);
+    // 
+    // std::fs::write(&encrypted_full_path, file)?;
+    // 
+    // 
+    // let metadata_path = full_path.parent().ok_or(ValidationError::ParseFailed)?;
+    // let metadata_path = metadata_path.to_str().ok_or(ValidationError::ParseFailed)?;
+    // //메타데이터 업데이트
+    // let mut enc_metadata = EncMetadata::open(metadata_path, encryption_key.as_str())?;
+    // 
+    // let real_name = full_path.file_name().ok_or(ValidationError::ParseFailed)?;
+    // let real_name = real_name.to_str().ok_or(ValidationError::ParseFailed)?;
+    // let real_name = real_name.to_string();
+    // 
+    // 
+    // enc_metadata.insert(EncMetadata{
+    //     real_name
+    // });
+    // 
+    // EncMetadata::save(metadata_path, encryption_key.as_str(), &enc_metadata)?;
     Ok(())
 }

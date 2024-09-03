@@ -1,5 +1,5 @@
 use std::path::Path;
-use std::sync::Mutex;
+use std::sync::{Mutex, RwLock};
 use heed::Env;
 use tauri::State;
 use winapi::um::winnt::FILE_ACTION_ADDED;
@@ -8,55 +8,60 @@ use crate::db::luna_settings_accessor;
 use crate::db::luna_settings_accessor::LunaSettingsAccessor;
 use crate::fileaccess::associatedprogram::get_associated_program;
 use crate::fileaccess::file::FileItem;
-use crate::GlobalData;
+use crate::Protection;
 use crate::module::crypto::decrypt_binary_with_iv;
-use crate::module::enc_metadata::{key_to_enc_metadata_signature, EncMetadata};
+use crate::module::enc_metadata::{EncMetadata};
 use crate::module::hash::str_to_sha256_hex;
 
 #[tauri::command]
-pub fn open_file(global_data:State<Mutex<GlobalData>>,db:State<Env>, file_path: &str) -> Result<(),ApiError> {
-    let global_data = global_data.lock().unwrap();
-    let encryption_key = global_data.encryption_key.clone();
-    drop(global_data);
-    
+pub fn open_file(protection:State<RwLock<Protection>>, db:State<Env>, file_path: &str) -> Result<(),ApiError> {
     let mut file_path = file_path.to_string();
 
-    if encryption_key.is_some() && file_path.ends_with(".encrypted") {
-        let encryption_key = encryption_key.unwrap();
-        let luna_settings = LunaSettingsAccessor::new(&db).get()?;
-        
-        let original_dir = Path::new(&file_path).parent().ok_or(ValidationError::ParseFailed)?
-            .to_str().ok_or(ValidationError::ParseFailed)?;
-        let original_dir_hash = str_to_sha256_hex(original_dir);
-        let original_file_name = Path::new(&file_path).file_name().ok_or(ValidationError::ParseFailed)?
-            .to_str().ok_or(ValidationError::ParseFailed)?;
-        
-        let mut decrypt_target_path = Path::new(&luna_settings.decrypt_temp_folder_path)
-            .join(&original_dir_hash);
-        
-        //해당 임시폴더까지 경로에 폴더가 없다면 생성
-        std::fs::create_dir_all(&decrypt_target_path)?;
-        
-        decrypt_target_path = decrypt_target_path.join(original_file_name);
+    //암호화된 파일 복호화
+    {
+        let protection = protection.read().unwrap();
+        let key = protection.key.as_ref();
+        if key.is_some() && file_path.ends_with(".encrypted") {
+            let key = key.unwrap();
+            let luna_settings = LunaSettingsAccessor::new(&db).get()?;
 
-        //파일이름 복호화 옵션이 켜져있다면 메타데이터에서 파일이름을 찾아서 복호화, 그렇지 않다면 원래이름 사용
-        let real_name = decrypt_folder_name(&encryption_key, &file_path)
-            .ok_or(ValidationError::DecryptFailed)?;
-        
-        if luna_settings.decrypt_file_name {
-            decrypt_target_path.set_file_name(&real_name);
-        }else{
-            let real_ext = Path::new(&real_name).extension().ok_or(ValidationError::ParseFailed)?
+            //원래 파일이 있던 폴더의 경로
+            let original_dir = Path::new(&file_path)
+                .parent().ok_or(ValidationError::ParseFailed)?
                 .to_str().ok_or(ValidationError::ParseFailed)?;
-            decrypt_target_path.set_extension(real_ext);
+
+            //복호화된 파일을 저장할 임시폴더 경로 (사용자 지정 임시폴더 경로 + 원래 폴더 경로의 SHA256 HEX의 조합)
+            let mut decrypt_target_path = Path::new(&luna_settings.decrypt_temp_folder_path)
+                .join(&str_to_sha256_hex(original_dir));
+
+            //해당 임시폴더까지 경로에 폴더가 없다면 생성
+            std::fs::create_dir_all(&decrypt_target_path)?;
+            
+            //복호화할 파일 경로 이름 지정
+            decrypt_target_path = decrypt_target_path.join(Path::new(&file_path)
+                .file_name().ok_or(ValidationError::ParseFailed)?
+                .to_str().ok_or(ValidationError::ParseFailed)?);
+
+            //파일이름 복호화 옵션이 켜져있다면 메타데이터에서 파일이름을 찾아서 복호화, 그렇지 않다면 원래이름 사용
+            let enc_metadata = EncMetadata::open(original_dir, key)?;
+            let real_name = enc_metadata.get_enc_file_item(&file_path)
+                .ok_or(ValidationError::DecryptFailed)?.real_name.clone();
+
+            if luna_settings.decrypt_file_name {
+                decrypt_target_path.set_file_name(&real_name);
+            } else {
+                decrypt_target_path.set_extension(Path::new(&real_name)
+                    .extension().ok_or(ValidationError::ParseFailed)?
+                    .to_str().ok_or(ValidationError::ParseFailed)?);
+            }
+
+            //파일을 임시폴더에 복호화
+            let mut file_binary = std::fs::read(&file_path)?;
+            decrypt_binary_with_iv(&key, &mut file_binary);
+            std::fs::write(&decrypt_target_path, file_binary)?;
+
+            file_path = decrypt_target_path.to_str().ok_or(ValidationError::ParseFailed)?.to_string();
         }
-        
-        //파일을 임시폴더에 복호화
-        let mut file_binary = std::fs::read(&file_path)?;
-        decrypt_binary_with_iv(&encryption_key,&mut file_binary);
-        std::fs::write(&decrypt_target_path, file_binary)?;
-        
-        file_path = decrypt_target_path.to_str().ok_or(ValidationError::ParseFailed)?.to_string();
     }
     
     if file_path.ends_with(".exe") {
@@ -71,19 +76,4 @@ pub fn open_file(global_data:State<Mutex<GlobalData>>,db:State<Env>, file_path: 
         .arg(&file_path)
         .output();
     Ok(())
-}
-
-fn decrypt_folder_name(encryption_key:&str, file_path:&str) -> Option<String>{
-    let file_name = Path::new(file_path).file_name()?.to_str()?;
-    let dir = Path::new(file_path).parent()?.to_str()?;
-    let enc_metadata_list = match EncMetadata::open(dir, encryption_key){
-        Ok(m) => m,
-        Err(_) => return None
-    };
-
-    let key = format!("file||{file_name}");
-    let enc_metadata = enc_metadata_list.get(&key);
-    if enc_metadata.is_none() { return None; }
-
-    Some(enc_metadata?.real_name.clone())
 }

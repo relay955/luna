@@ -39,7 +39,7 @@ impl From<ApiError> for InvokeError{
 
 pub  enum ValidationError{
     PasswordTooShort,ParseFailed,DBOpenFailed,
-    DecryptFailed,
+    DecryptFailed,NotInProtectionMode
 }
 
 impl From<ValidationError> for ApiError{
@@ -60,6 +60,10 @@ impl From<ValidationError> for ApiError{
             ValidationError::DecryptFailed => ApiError::Validation{
                 code: "DECRYPT_FAILED".to_string(),
                 msg: "파일 복호화에 실패했습니다.".to_string()
+            },
+            ValidationError::NotInProtectionMode => ApiError::Validation{
+                code: "NOT_IN_PROTECTION_MODE".to_string(),
+                msg: "보호 모드가 아닙니다.".to_string()
             }
         }
     }

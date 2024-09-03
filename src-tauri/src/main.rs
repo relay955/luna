@@ -4,7 +4,7 @@
 use base64::Engine;
 use std::any::Any;
 use std::os::windows::fs::MetadataExt;
-use std::sync::Mutex;
+use std::sync::{Mutex, RwLock};
 
 use crate::api::addfavoritefolder::add_favorite_folder;
 use crate::api::getdrivelist::get_drive_list;
@@ -28,15 +28,15 @@ mod jobscheduler;
 mod module;
 
 #[derive(Serialize, Deserialize)]
-pub struct GlobalData {
-    pub encryption_key: Option<String>,
+pub struct Protection {
+    pub key: Option<String>,
 }
 
 fn main() {
     let path = "./data";
     tauri::Builder::default()
         .manage(create_env())
-        .manage(Mutex::new(GlobalData{encryption_key:None}))
+        .manage(RwLock::new(Protection {key:None}))
         .setup(|app| {
             #[cfg(any(windows, target_os = "macos"))]
             set_shadow(&app.get_window("main").unwrap(),true).unwrap();
