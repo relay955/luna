@@ -39,7 +39,7 @@ impl From<ApiError> for InvokeError{
 
 pub  enum ValidationError{
     PasswordTooShort,ParseFailed,DBOpenFailed,
-    DecryptFailed,NotInProtectionMode
+    DecryptFailed,NotInProtectionMode,FileAlreadyExists
 }
 
 impl From<ValidationError> for ApiError{
@@ -64,6 +64,10 @@ impl From<ValidationError> for ApiError{
             ValidationError::NotInProtectionMode => ApiError::Validation{
                 code: "NOT_IN_PROTECTION_MODE".to_string(),
                 msg: "보호 모드가 아닙니다.".to_string()
+            },
+            ValidationError::FileAlreadyExists => ApiError::Validation{
+                code: "FILE_ALREADY_EXISTS".to_string(),
+                msg: "파일이 이미 존재합니다.".to_string()
             }
         }
     }

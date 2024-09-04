@@ -22,6 +22,7 @@ pub struct EncMetadata{
 impl EncMetadata {
     /// 키를 메타데이터를 식별하기 위한 서명 Hex4자리로 변환합니다.
     fn key_to_enc_metadata_signature(key: &str) -> String {
+        //TODO 시그니쳐 생성 방식때문에 해시충돌공격에 취약할수있음
         let key = key.to_string() + "enc_metadata_signature";
         let hex = str_to_sha256_hex(&key);
         let hex = str_to_sha256_hex(hex.as_str());
