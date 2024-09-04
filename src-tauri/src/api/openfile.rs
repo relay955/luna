@@ -51,7 +51,7 @@ pub fn open_file(protection:State<RwLock<Protection>>, db:State<Env>, file_path:
                 decrypt_target_path.set_file_name(&real_name);
             } else {
                 decrypt_target_path.set_extension(Path::new(&real_name)
-                    .extension().ok_or(ValidationError::ParseFailed)?
+                    .extension().ok_or(ValidationError::CantOpenNoExtFile)?
                     .to_str().ok_or(ValidationError::ParseFailed)?);
             }
 

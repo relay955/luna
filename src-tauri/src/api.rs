@@ -39,7 +39,8 @@ impl From<ApiError> for InvokeError{
 
 pub  enum ValidationError{
     PasswordTooShort,ParseFailed,DBOpenFailed,
-    DecryptFailed,NotInProtectionMode,FileAlreadyExists
+    DecryptFailed,NotInProtectionMode,FileAlreadyExists,
+    CantOpenNoExtFile
 }
 
 impl From<ValidationError> for ApiError{
@@ -68,6 +69,10 @@ impl From<ValidationError> for ApiError{
             ValidationError::FileAlreadyExists => ApiError::Validation{
                 code: "FILE_ALREADY_EXISTS".to_string(),
                 msg: "파일이 이미 존재합니다.".to_string()
+            },
+            ValidationError::CantOpenNoExtFile => ApiError::Validation{
+                code: "CANT_OPEN_NO_EXT_FILE".to_string(),
+                msg: "확장자가 없는 파일은 열 수 없습니다.".to_string()
             }
         }
     }
