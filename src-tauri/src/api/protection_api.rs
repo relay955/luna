@@ -77,9 +77,13 @@ pub fn force_decrypt_file(protection:State<RwLock<Protection>>, full_path:&str) 
         .real_name.clone();
 
     let mut file = std::fs::read(full_path)?;
+    let decrypt_target_path = full_path_obj.with_file_name(&real_name);
+    if decrypt_target_path.exists() {
+        return Err(ValidationError::FileAlreadyExists.into());
+    }
+    
     decrypt_binary_with_iv(key, &mut file);
 
-    let decrypt_target_path = full_path_obj.with_file_name(&real_name);
     std::fs::write(&decrypt_target_path, file)?;
     
     Ok(())
